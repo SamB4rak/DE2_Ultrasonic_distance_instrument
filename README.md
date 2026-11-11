@@ -14,9 +14,9 @@ Projekt ve kterém pomoci ultrazvukového senzoru a displeje se vytvoří zaří
 
 | **Komponenty** | **Funkce** |
 | :---: | :---: | 
-| **HC‑SR04** |  |
+| **HC‑SR04** | Ultrazvukový signál, který vysílá ultrazvukové vlny. Při odrazu vlny zpět od dané překážky, posílá data zpět. |
 | **BME/BMP280** |  |
-| **OLED Displej** |  |
-| **Tlačítko** |  |
-| **RGB LED** |  |
-| **Relé modul** |  |
+| **OLED Displej** | Pro vizualní indikaci za pomoci zobrazení vzdálenosti od objektu. |
+| **Tlačítko** | Pro zapnutí a vypnutí senzoru. |
+| **RGB LED** | Pro vizuální inidikaci za pomoci svícení dané barvy a rychlosti blikaní. |
+| **Relé modul** | Pro audio indikaci za pomoci cvakání. |
