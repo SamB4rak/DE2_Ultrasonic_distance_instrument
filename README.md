@@ -8,3 +8,6 @@ Ultrasonic sensors, serial 4-digit display, or Nokia SPI display
 
 ### Zadání:
 Projekt ve kterém pomoci ultrazvukového senzoru a displeje se vytvoří zařízení, které v pravidelných intervalech měří vzdálenost a ukazuje ji na displeji. Zároveň poskytuje vizuální i audiovou indikaci toho, zda je objekt blízko nebo daleko.
+
+## Využité součástky
+* Projekt je vytvářen v **MicroPythonu** na desku **Rasberry pi pico W**
