@@ -11,3 +11,12 @@ Projekt ve kterém pomoci ultrazvukového senzoru a displeje se vytvoří zaří
 
 ## Využité součástky
 * Projekt je vytvářen v **MicroPythonu** na desku **Rasberry pi pico W**
+
+| **Komponenty** | **Funkce** |
+| :---: | :---: | 
+| **HC‑SR04** |  |
+| **BME/BMP280** |  |
+| **OLED Displej** |  |
+| **Tlačítko** |  |
+| **RGB LED** |  |
+| **Relé modul** |  |
