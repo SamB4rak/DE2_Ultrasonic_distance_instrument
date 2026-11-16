@@ -22,4 +22,4 @@ Projekt ve kterém pomoci ultrazvukového senzoru a displeje se vytvoří zaří
 | **Relé modul** | Pro audio indikaci za pomoci cvakání. |
 
 ## Schémata
-* **Blokové schéma:** [![Schematic Preview](docs/img/ultrasonic_block_diagram.jpg)](docs/img/ultrasonic_block_diagram.png)
+* **Blokové schéma:** [![Schematic Preview](docs/img/ultrasonic_block_diagram.jpg)](docs/img/ultrasonic_block_diagram.jpg)
