@@ -7,16 +7,16 @@ Ultrasonic sensors, serial 4-digit display, or Nokia SPI display
 * Denis Bureš
 
 ### Zadání:
-Projekt, ve kterém se pomocí ultrazvukového senzoru a displeje vytvoří zařízení, které v pravidelných intervalech měří vzdálenost a ukazuje ji na displeji. Zároveň poskytuje vizuální i zvukovou indikaci toho, zda je objekt blízko, nebo daleko.
+Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoří zařízení, které v pravidelných intervalech měří vzdálenost a ukazuje ji na displeji. Zároveň poskytuje vizuální i zvukovou indikaci toho, zda je objekt blízko, nebo daleko. Podobně jako bezpečnostní kamera navíc zaznamenává události (změny zóny, příchod a odchod objektu a pravidelná měření) s přesným časem a přes Wi-Fi je odesílá do cloudu ThingSpeak.
 
 ## Využité součástky
 * Projekt je vytvářen v **MicroPythonu** na desku **Raspberry Pi Pico W**
 
 | **Komponenty** | **Funkce** |
 | :---: | :---: |
-| **HC‑SR04** | Ultrazvukový senzor (2×, vlevo a vpravo), který vysílá ultrazvukové vlny. Podle doby, za kterou se vlna odražená od překážky vrátí, se vypočítá vzdálenost. |
-| **BME/BMP280** | Měří teplotu, vlhkost a tlak vzduchu (BMP280 vlhkost neměří). Hodnoty zobrazuje na displeji a každých 20 s je přes Wi-Fi odesílá na ThingSpeak, stejně jako ve cvičení 7. Teplotu lze navíc využít ke zpřesnění rychlosti zvuku, a tím i měřené vzdálenosti. |
-| **OLED Displej** | Pro vizuální indikaci za pomoci zobrazení vzdálenosti od objektu a hodnot z BME280. |
+| **HC‑SR04** | Ultrazvukový senzor (2×, vlevo a vpravo), který vysílá ultrazvukové vlny. Podle doby, za kterou se vlna odražená od překážky vrátí, se vypočítá vzdálenost. Jeho výstup Echo má 5 V, proto ho dělič napětí 1 kΩ / 2 kΩ snižuje na 3,3 V, které snese Pico. |
+| **Raspberry Pi Pico W** | Řídí celé zařízení. Přes vestavěnou Wi-Fi odesílá do cloudu ThingSpeak záznam událostí, podobně jako bezpečnostní kamera: změny zóny, příchod a odchod objektu (s nejmenší vzdáleností a dobou přítomnosti) a pravidelné měření každou minutu, vše s časem přesným na sekundu. |
+| **OLED Displej** | Pro vizuální indikaci za pomoci zobrazení vzdáleností z obou senzorů, poslední zaznamenané události a stavu Wi-Fi a odesílání. |
 | **Tlačítko** | Pro zapnutí a vypnutí senzorů. |
 | **RGB LED** | Pro vizuální indikaci za pomoci svícení dané barvy (zelená = daleko, žlutá = středně, červená = blízko) a rychlosti blikání. |
 | **Relé modul** | Pro zvukovou indikaci za pomoci cvakání ve stejném rytmu, v jakém bliká LED. |
