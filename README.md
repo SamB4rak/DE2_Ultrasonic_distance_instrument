@@ -20,3 +20,6 @@ Projekt ve kterém pomoci ultrazvukového senzoru a displeje se vytvoří zaří
 | **Tlačítko** | Pro zapnutí a vypnutí senzoru. |
 | **RGB LED** | Pro vizuální inidikaci za pomoci svícení dané barvy a rychlosti blikaní. |
 | **Relé modul** | Pro audio indikaci za pomoci cvakání. |
+
+## Schémata
+* **Blokové schéma:** [![Schematic Preview](docs/img/ultrasonic_block_diagram.jpg)](docs/img/ultrasonic_block_diagram.png)
