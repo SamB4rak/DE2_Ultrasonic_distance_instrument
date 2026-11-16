@@ -9,8 +9,8 @@
 </defs>
 <rect width="1800" height="1190" fill="#ffffff"/>
 <text x="40" y="56" font-size="28" fill="#212529" font-weight="700">Ultrasonic Distance Instrument — System Block Diagram</text>
-<text x="40" y="84" font-size="15" fill="#6c757d">BPC-DE2 project · Raspberry Pi Pico WH · two HC-SR04 sensors · MicroPython (uasyncio) · data and control flow</text>
-<text x="1760" y="56" font-size="13" fill="#6c757d" text-anchor="end">v2 · reviewed proposal · Nov 2026</text>
+<text x="40" y="84" font-size="15" fill="#6c757d">BPC-DE2 project · Raspberry Pi Pico WH · two HC-SR04 sensors · MicroPython (asyncio) · data and control flow</text>
+<text x="1760" y="56" font-size="13" fill="#6c757d" text-anchor="end">v2.2 · reviewed proposal · Nov 2026</text>
 <text x="30" y="155" font-size="12" fill="#6c757d" font-weight="700" letter-spacing="2">INPUTS</text>
 <text x="1450" y="155" font-size="12" fill="#6c757d" font-weight="700" letter-spacing="2">OUTPUTS</text>
 <rect x="510" y="120" width="780" height="680" rx="18" fill="#f8f9fa" stroke="none" stroke-width="0"/>
@@ -18,7 +18,7 @@
 <rect x="510" y="120" width="780" height="680" rx="18" fill="none" stroke="#343a40" stroke-width="2.5"/>
 <text x="532" y="147" font-size="18" fill="#fff" font-weight="700">Raspberry Pi Pico WH</text>
 <text x="532" y="168" font-size="13" fill="#dee2e6">RP2040 + CYW43439 on-board Wi-Fi · MicroPython · plugged into the DFRobot Pico Gravity board V3.0</text>
-<text x="900.0" y="202" font-size="12" fill="#6c757d" text-anchor="middle" font-style="italic">uasyncio: six cooperative tasks share one state object · the Echo hard IRQs only time-stamp edges</text>
+<text x="900.0" y="202" font-size="12" fill="#6c757d" text-anchor="middle" font-style="italic">asyncio: six cooperative tasks share one state object · the Echo hard IRQs only time-stamp edges</text>
 <rect x="545" y="210" width="220" height="85" rx="10" fill="#fff" stroke="#868e96" stroke-width="1.4"/>
 <text x="559" y="235" font-size="15" fill="#212529" font-weight="700">Mode control</text>
 <rect x="707.1" y="220" width="47.9" height="20" rx="10.0" fill="#e9ecef"/>
@@ -124,6 +124,7 @@
 <text x="54" y="388" font-size="12.5" fill="#343a40">VCC: VBUS 5 V, not Gravity 3V3</text>
 <path d="M545,335 L350,335" fill="none" stroke="#495057" stroke-width="2" stroke-linejoin="round" marker-end="url(#arr-gray)"/>
 <text x="430" y="327" font-size="11.5" fill="#495057" text-anchor="middle">Trig · 10 µs</text>
+<text x="430" y="349" font-size="10" fill="#495057" text-anchor="middle">10 kΩ to GND</text>
 <rect x="487.74" y="324" width="44.519999999999996" height="22" rx="11.0" fill="#212529"/>
 <text x="510" y="339" font-size="11.5" fill="#fff" font-weight="700" text-anchor="middle" class="mono">GP20</text>
 <path d="M350,390 L395,390" fill="none" stroke="#e8590c" stroke-width="2.2" stroke-linejoin="round"/>
@@ -147,6 +148,7 @@
 <text x="54" y="538" font-size="12.5" fill="#343a40">VCC: VBUS 5 V, not Gravity 3V3</text>
 <path d="M545,485 L350,485" fill="none" stroke="#495057" stroke-width="2" stroke-linejoin="round" marker-end="url(#arr-gray)"/>
 <text x="430" y="477" font-size="11.5" fill="#495057" text-anchor="middle">Trig · 10 µs</text>
+<text x="430" y="499" font-size="10" fill="#495057" text-anchor="middle">10 kΩ to GND</text>
 <rect x="487.74" y="474" width="44.519999999999996" height="22" rx="11.0" fill="#212529"/>
 <text x="510" y="489" font-size="11.5" fill="#fff" font-weight="700" text-anchor="middle" class="mono">GP18</text>
 <path d="M350,540 L395,540" fill="none" stroke="#e8590c" stroke-width="2.2" stroke-linejoin="round"/>
@@ -197,7 +199,7 @@
 <text x="1474" y="330" font-size="16" fill="#212529" font-weight="700">Relay module</text>
 <text x="1474" y="352" font-size="12.5" fill="#343a40">SRD-05VDC-SL-C · opto-coupled IN</text>
 <text x="1474" y="370" font-size="12.5" fill="#343a40">IN active LOW: GP16 HIGH = off</text>
-<text x="1474" y="388" font-size="12.5" fill="#343a40">one 50 ms click per tick</text>
+<text x="1474" y="388" font-size="12.5" fill="#343a40">IN: 4.7 kΩ pull-up to 3V3</text>
 <text x="1474" y="406" font-size="12.5" fill="#343a40">VCC: VBUS 5 V · contacts unwired</text>
 <path d="M1250,360 L1450,360" fill="none" stroke="#495057" stroke-width="2" stroke-linejoin="round" marker-end="url(#arr-gray)"/>
 <text x="1386" y="352" font-size="11.5" fill="#495057" text-anchor="middle">digital out → IN</text>
@@ -328,6 +330,6 @@
 <circle cx="1354" cy="1100" r="2.6" fill="#495057"/>
 <text x="1364" y="1104" font-size="12" fill="#343a40">Relay contacts stay unwired; the click is the signal.</text>
 <circle cx="1354" cy="1125" r="2.6" fill="#495057"/>
-<text x="1364" y="1129" font-size="12" fill="#343a40">Bench checks: Echo levels (≈ 5 V) and no-target width,</text>
-<text x="1364" y="1146" font-size="12" fill="#343a40">relay IN level (lab 2.4), OLED chip (SH1106 or SSD1306).</text>
+<text x="1364" y="1129" font-size="12" fill="#343a40">Bench checks: each Echo divider at 2/3 of the 5 V rail</text>
+<text x="1364" y="1146" font-size="12" fill="#343a40">before wiring; relay IN pre-check; OLED chip (SH1106?).</text>
 </svg>
