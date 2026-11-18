@@ -1,6 +1,0 @@
-src/config.py
-__pycache__/
-*.mpy
-.venv/
-docs/_build/
-.DS_Store
