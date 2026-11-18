@@ -32,27 +32,29 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 
 | **Modul** | **Zapojení** |
 | :--- | :--- |
-| HC‑SR04 #1 (vlevo) | VCC → 5 V (VBUS), Trig → GP20 (+ 10 kΩ na GND), Echo → dělič 1 kΩ / 2 kΩ → GP21, GND → GND |
-| HC‑SR04 #2 (vpravo) | VCC → 5 V (VBUS), Trig → GP18 (+ 10 kΩ na GND), Echo → dělič 1 kΩ / 2 kΩ → GP19, GND → GND |
-| Tlačítko | GP17 a GND (vnitřní pull-up, stisk = log. 0) |
-| RGB LED | R → GP12, G → GP13, B → GP14, − → GND |
-| Relé modul | DC+ → 5 V (VBUS), DC− → GND, IN → GP16 (pull-up 4,7 kΩ na 3V3) |
-| OLED displej | VCC → 3V3, GND → GND, SCL → GP5, SDA → GP4 (pull-upy 4,7 kΩ na 3V3) |
+| HC‑SR04 #1 (vlevo) | VCC → 5 V (VBUS, pin 40), Trig → GP20 (pin 26) + 10 kΩ na GND, Echo → dělič 1 kΩ / 2 kΩ → GP21 (pin 27), GND → GND |
+| HC‑SR04 #2 (vpravo) | VCC → 5 V (VBUS, pin 40), Trig → GP18 (pin 24) + 10 kΩ na GND, Echo → dělič 1 kΩ / 2 kΩ → GP19 (pin 25), GND → GND |
+| Tlačítko | GP17 (pin 22) a GND (vnitřní pull-up, stisk = log. 0) |
+| RGB LED | R → GP12 (pin 16), G → GP13 (pin 17), B → GP14 (pin 19), − → GND |
+| Relé modul | DC+ → 5 V (VBUS, pin 40), DC− → GND, IN → GP16 (pin 21) + pull-up 4,7 kΩ na 3V3 |
+| OLED displej | VCC → 3V3 (pin 36), GND → GND, SCL → GP5 (pin 7), SDA → GP4 (pin 6) + pull-upy 4,7 kΩ na 3V3 |
 
-Senzory a relé jsou napájené z 5 V (VBUS, pin 40), OLED displej a pull-up rezistory z výstupu 3V3 Pica (pin 36). Celé zařízení se napájí přes USB.
+Senzory a relé jsou napájené z 5 V (VBUS, pin 40), OLED displej a pull-up rezistory z výstupu 3V3 Pica (pin 36). GND je kterýkoli černý pin, všechny země jsou spojené. Celé zařízení se napájí přes USB.
+
+Dělič u výstupu Echo: *U* = 5 V · 2 kΩ / (1 kΩ + 2 kΩ) ≈ 3,33 V.
 
 ## Časování tasků
 Program běží v knihovně `asyncio`: každý task se pravidelně probudí, udělá svou práci a zase se uspí, takže se tasky navzájem neblokují.
 
-| **Task** | **Perioda** | **Co dělá** |
-| :--- | :---: | :--- |
-| Tlačítko (`mode_task`) | 20 ms | Čte tlačítko, odfiltruje zákmity (40 ms) a zapíná nebo vypíná senzory. |
-| Měření (`ranging_task`) | 60 ms | Střídavě spouští levý a pravý senzor, takže každý měří jednou za 120 ms. Hodnoty filtruje mediánem ze 3 měření, vybere bližší z obou vzdáleností a určí zónu. |
-| Detektor událostí | po každém měření | Zaznamená změnu zóny, příchod a odchod objektu (odchod až po 3 s bez objektu) a každých 60 s pravidelné měření. |
-| Indikace (`indicator_task`) | 50 ms | Nastaví barvu LED podle zóny. LED blikne a relé cvakne (na 50 ms) 1–5× za sekundu: čím blíž objekt, tím rychleji. |
-| Displej (`display_task`) | 200 ms | Překreslí vzdálenosti, poslední událost a stav Wi-Fi. |
-| Cloud (`logger_task`) | 20 s | Odešle nasbírané události do ThingSpeaku (nejdříve 15 s po minulém odeslání). Při výpadku zkouší Wi-Fi znovu po 10 s. Přesný čas bere z NTP po připojení a pak každých 6 h. |
-| Přerušení od Echo | při každé hraně | Hardwarové přerušení jen uloží čas hrany v µs, vzdálenost z něj spočítá task měření. |
+| **Task** | **Perioda** | **Co dělá** | **Proč tato perioda** |
+| :--- | :---: | :--- | :--- |
+| Tlačítko (`mode_task`) | 20 ms | Čte tlačítko, odfiltruje zákmity (40 ms) a zapíná nebo vypíná senzory. | Zákmity tlačítka trvají do 10 ms, takže 20 ms žádný stisk nepropásne; kurz doporučuje 20–50 ms. |
+| Měření (`ranging_task`) | 60 ms | Střídavě spouští levý a pravý senzor, takže každý měří jednou za 120 ms. Hodnoty filtruje mediánem ze 3 měření, vybere bližší z obou vzdáleností a určí zónu. | Mezi dvěma pingy musí uplynout aspoň 60 ms, jinak senzor zachytí ozvěnu předchozího pingu nebo ping druhého senzoru. Každý senzor tak měří 8,3× za sekundu. |
+| Detektor událostí | po každém měření | Zaznamená změnu zóny, příchod a odchod objektu (odchod až po 3 s bez objektu) a každých 60 s pravidelné měření. | Běží hned po měření, takže mu žádná změna neunikne. Odchod čeká 3 s, aby krátký výpadek měření nezaložil novou návštěvu. |
+| Indikace (`indicator_task`) | 50 ms | Nastaví barvu LED podle zóny. LED blikne a relé cvakne (na 50 ms) 1–5× za sekundu: čím blíž objekt, tím rychleji. | Změna zóny se ukáže do 50 ms. Nejrychlejší rytmus je 5× za sekundu (perioda 200 ms), takže krok 50 ms stačí. |
+| Displej (`display_task`) | 200 ms | Překreslí vzdálenosti, poslední událost a stav Wi-Fi. | 5 obnovení za sekundu stačí ke čtení. Celý obraz zabere na I2C asi 25 ms, proto se posílá po 8 částech (asi 3 ms) a ostatní tasky neblokuje. |
+| Cloud (`logger_task`) | 20 s | Odešle nasbírané události do ThingSpeaku (nejdříve 15 s po minulém odeslání). Při výpadku zkouší Wi-Fi znovu po 10 s. Přesný čas bere z NTP po připojení a pak každých 6 h. | Bezplatný ThingSpeak přijme hromadné nahrání nejdříve 15 s po předchozím. Hodiny Pica se za den rozejdou až o několik sekund, NTP každých 6 h je drží zhruba na 1 s. |
+| Přerušení od Echo | při každé hraně | Hardwarové přerušení jen uloží čas hrany v µs, vzdálenost z něj spočítá task měření. | Čas hrany potřebujeme přesně (1 µs ≈ 0,17 mm vzdálenosti) a obsluha přerušení má být co nejkratší, proto výpočet běží mimo ni. |
 
 ## MicroPython a využité knihovny
 * **MicroPython 1.29.0** (firmware `RPI_PICO_W`)
@@ -61,4 +63,11 @@ Program běží v knihovně `asyncio`: každý task se pravidelně probudí, ud�
 * **Na počítači:** `mpremote` 1.29.0 (nahrávání do Pica), `mpy-cross` 1.29.0.post2 (kontrola kódu před nahráním), `pytest` 9.2.0 (testy na PC)
 
 ## Rozdělení práce v týmu
-Na projektu pracujeme všichni společně: každý člen týmu se podílí na všech částech, tedy na zapojení a testování hardwaru, programování, dokumentaci i prezentaci.
+Na zapojení a testování pracujeme všichni společně na cvičeních. Za jednotlivé části odpovídají:
+
+| **Člen týmu** | **Zodpovídá za** |
+| :--- | :--- |
+| Samuel Barák | návrh programu a propojení modulů do jednoho programu, testy; drobné průběžné úpravy repozitáře |
+| Daniel Blumaier | plakát a prezentace včetně videa, fotky prototypu, doplňky navíc |
+| Samuel Breza | hardware: zapojení na nepájivém poli, senzory s děliči napětí, displej, RGB LED, relé a tlačítko; měření přesnosti senzorů |
+| Denis Bureš | větší úpravy repozitáře a dokumentace: README, dokumentace Sphinx, výsledky testů |
