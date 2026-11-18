@@ -21,6 +21,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | [RGB LED](https://arwill.hu/forras/termek/kit-ek/ky-016-rgb-led-modul-506261.pdf) | Pro vizuální indikaci za pomoci svícení dané barvy (zelená = daleko, žlutá = středně, červená = blízko) a rychlosti blikání. |
 | [Relé modul](https://dratek.cz/docs/produkty/0/579/1517442331.pdf) | Pro zvukovou indikaci za pomoci cvakání ve stejném rytmu, v jakém bliká LED. |
 | **Rezistory (1kΩ a 2kΩ)** | Pro vytvoření děliče, který z 5 V udělá 3,3 V bezpečné pro Raspberry Pi Pico W desku |
+* Ochrana: Ultrazvukový senzor HC-SR04 bude správně fungovat s napájecím napětím 5 V. Je proto připojený na pin *VBUS*. Signál, který je pak posílaný přes pin *ECHO* má taktéž 5 V nicméně piny Raspberry Pi Pico W zvládnou jen 3,3 V. Proto pomocí 2 rezistorů se vytvoří napěťový dělič 2/3, který napětí z 5 V sníží na 3,3 V.
 ## Schémata
 * **Blokové schéma:** [![Schematic Preview](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
 
