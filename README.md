@@ -20,7 +20,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | **Tlačítko** | Pro zapnutí a vypnutí senzorů. |
 | [RGB LED](https://arwill.hu/forras/termek/kit-ek/ky-016-rgb-led-modul-506261.pdf) | Pro vizuální indikaci za pomoci svícení dané barvy (zelená = daleko, žlutá = středně, červená = blízko) a rychlosti blikání. |
 | [Relé modul](https://dratek.cz/docs/produkty/0/579/1517442331.pdf) | Pro zvukovou indikaci za pomoci cvakání ve stejném rytmu, v jakém bliká LED. |
-
+| Rezistory (1k a 2k) | Pro vytvoření děliče, který z 5 V udělá 3,3 V bezpečné pro Raspberry Pi Pico W desku |
 ## Schémata
 * **Blokové schéma:** [![Schematic Preview](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
 
