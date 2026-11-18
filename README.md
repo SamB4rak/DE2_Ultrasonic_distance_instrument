@@ -10,7 +10,7 @@ Ultrasonic sensors, serial 4-digit display, or Nokia SPI display
 Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoří zařízení, které v pravidelných intervalech měří vzdálenost a ukazuje ji na displeji. Zároveň poskytuje vizuální i zvukovou indikaci toho, zda je objekt blízko, nebo daleko. Podobně jako bezpečnostní kamera navíc zaznamenává události (změny zóny, příchod a odchod objektu a pravidelná měření) s přesným časem a přes Wi-Fi je odesílá do cloudu ThingSpeak.
 
 ## Využité součástky
-* Projekt je vytvářen v **MicroPythonu** na desku **Raspberry Pi Pico W**
+* Projekt je vytvářen v **MicroPythonu 1.29.0** na desku **Raspberry Pi Pico W**
 
 | **Komponenty** | **Počet** | **Funkce** |
 | :---: | :---: | :---: |
@@ -21,11 +21,44 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | [RGB LED](https://arwill.hu/forras/termek/kit-ek/ky-016-rgb-led-modul-506261.pdf) | 1 | Pro vizuální indikaci za pomoci svícení dané barvy (zelená = daleko, žlutá = středně, červená = blízko) a rychlosti blikání. |
 | [Relé modul](https://dratek.cz/docs/produkty/0/579/1517442331.pdf) | 1 | Pro zvukovou indikaci za pomoci cvakání ve stejném rytmu, v jakém bliká LED. |
 | **Rezistory (1kΩ a 2kΩ)** | 2 a 2 | Pro vytvoření děliče, který z 5 V udělá 3,3 V bezpečné pro piny Raspberry Pi Pico W |
+| **Rezistory (10 kΩ)** | 2 | Z pinu Trig na GND: senzor má na Trig vlastní pull-up 10 kΩ na 5 V, takže pin Pica, který ho ještě neovládá (např. při startu), zůstane na bezpečných 2,5 V. |
+| **Rezistory (4,7 kΩ)** | 3 | Pull-upy na 3,3 V pro vstup IN relé a pro linky SDA a SCL displeje. |
+| **Kondenzátory (100 nF a 10–47 µF)** | 3 a 1 | Blokovací kondenzátory: 100 nF u napájení každého senzoru a relé, 10–47 µF navíc u relé. |
 * Ochrana: Ultrazvukový senzor HC-SR04 bude správně fungovat s napájecím napětím 5 V. Je proto připojený na pin *VBUS*. Signál, který je pak posílaný přes pin *ECHO* má taktéž 5 V nicméně piny Raspberry Pi Pico W zvládnou jen 3,3 V. Proto pomocí 2 rezistorů se vytvoří napěťový dělič 2/3, který napětí z 5 V sníží na 3,3 V.
 ## Schémata
-* **Blokové schéma:** [![Schematic Preview](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
+* **Blokové schéma:** [![Blokové schéma](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
 
-* **Schéma zapojení:** ![Schematic Preview](schema_zapojeni.png)
+* **Schéma zapojení (pin po pinu):** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
 
+| **Modul** | **Zapojení** |
+| :--- | :--- |
+| HC‑SR04 #1 (vlevo) | VCC → 5 V (VBUS), Trig → GP20 (+ 10 kΩ na GND), Echo → dělič 1 kΩ / 2 kΩ → GP21, GND → GND |
+| HC‑SR04 #2 (vpravo) | VCC → 5 V (VBUS), Trig → GP18 (+ 10 kΩ na GND), Echo → dělič 1 kΩ / 2 kΩ → GP19, GND → GND |
+| Tlačítko | GP17 a GND (vnitřní pull-up, stisk = log. 0) |
+| RGB LED | R → GP12, G → GP13, B → GP14, − → GND |
+| Relé modul | DC+ → 5 V (VBUS), DC− → GND, IN → GP16 (pull-up 4,7 kΩ na 3V3) |
+| OLED displej | VCC → 3V3, GND → GND, SCL → GP5, SDA → GP4 (pull-upy 4,7 kΩ na 3V3) |
 
+Senzory a relé jsou napájené z 5 V (VBUS, pin 40), OLED displej a pull-up rezistory z výstupu 3V3 Pica (pin 36). Celé zařízení se napájí přes USB.
 
+## Časování tasků
+Program běží v knihovně `asyncio`: každý task se pravidelně probudí, udělá svou práci a zase se uspí, takže se tasky navzájem neblokují.
+
+| **Task** | **Perioda** | **Co dělá** |
+| :--- | :---: | :--- |
+| Tlačítko (`mode_task`) | 20 ms | Čte tlačítko, odfiltruje zákmity (40 ms) a zapíná nebo vypíná senzory. |
+| Měření (`ranging_task`) | 60 ms | Střídavě spouští levý a pravý senzor, takže každý měří jednou za 120 ms. Hodnoty filtruje mediánem ze 3 měření, vybere bližší z obou vzdáleností a určí zónu. |
+| Detektor událostí | po každém měření | Zaznamená změnu zóny, příchod a odchod objektu (odchod až po 3 s bez objektu) a každých 60 s pravidelné měření. |
+| Indikace (`indicator_task`) | 50 ms | Nastaví barvu LED podle zóny. LED blikne a relé cvakne (na 50 ms) 1–5× za sekundu: čím blíž objekt, tím rychleji. |
+| Displej (`display_task`) | 200 ms | Překreslí vzdálenosti, poslední událost a stav Wi-Fi. |
+| Cloud (`logger_task`) | 20 s | Odešle nasbírané události do ThingSpeaku (nejdříve 15 s po minulém odeslání). Při výpadku zkouší Wi-Fi znovu po 10 s. Přesný čas bere z NTP po připojení a pak každých 6 h. |
+| Přerušení od Echo | při každé hraně | Hardwarové přerušení jen uloží čas hrany v µs, vzdálenost z něj spočítá task měření. |
+
+## MicroPython a využité knihovny
+* **MicroPython 1.29.0** (firmware `RPI_PICO_W`)
+* **Vestavěné moduly MicroPythonu:** `asyncio`, `machine` (`Pin`, `PWM`, `I2C`), `time`, `network` (Wi-Fi), `ntptime`, `socket`, `json`, `framebuf`, `micropython`, `sys`
+* **Ovladač OLED displeje:** `sh1106.py` z projektu [robert-hh/SH1106](https://github.com/robert-hh/SH1106) (licence MIT)
+* **Na počítači:** `mpremote` 1.29.0 (nahrávání do Pica), `mpy-cross` 1.29.0.post2 (kontrola kódu před nahráním), `pytest` 9.2.0 (testy na PC)
+
+## Rozdělení práce v týmu
+Na projektu pracujeme všichni společně: každý člen týmu se podílí na všech částech, tedy na zapojení a testování hardwaru, programování, dokumentaci i prezentaci.

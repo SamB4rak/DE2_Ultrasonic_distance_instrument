@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="880" viewBox="0 0 1600 880" role="img" aria-labelledby="title desc" xmlns:c2pa="http://c2pa.org/manifest">
+<title id="title">Ultrasonic distance instrument: block diagram</title>
+<desc id="desc">A Raspberry Pi Pico W reads two HC-SR04 ultrasonic sensors (Trig and Echo on GP20/GP21 and GP18/GP19, both sensors on 3.3 V) and a push button on GP17. It drives an RGB LED by PWM on GP12 to GP14, a 5 V relay module on GP16 and an SH1106 OLED display on I2C0 (GP4, GP5). Over its Wi-Fi it uploads the event log to ThingSpeak and gets the time from an NTP server. USB supplies 5 V; the relay uses VBUS 5 V, the sensors and the OLED the Pico 3V3 output. Five asyncio tasks run at fixed periods: button 20 ms, ranging 60 ms, indicator 50 ms, display 200 ms, cloud logger 20 s.</desc>
+<defs><style>text{font-family:Inter,"Segoe UI",Helvetica,Arial,sans-serif}</style>
+<marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#495057"/></marker>
+<marker id="av" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#7048e8"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0.5 L10,5 L0,9.5 z" fill="#e8590c"/></marker>
+</defs>
+<rect width="1600" height="880" fill="#ffffff"/>
+<text x="60" y="64" font-size="30" font-weight="700" fill="#212529" text-anchor="start">Ultrasonic distance instrument — block diagram</text>
+<text x="60" y="96" font-size="16" font-weight="400" fill="#868e96" text-anchor="start">BPC-DE2 · Raspberry Pi Pico W · MicroPython 1.29.0 · asyncio</text>
+<rect x="560" y="150" width="480" height="610" rx="16" fill="#f8f9fa" stroke="#343a40" stroke-width="2"/>
+<path d="M560 166 a16 16 0 0 1 16 -16 h448 a16 16 0 0 1 16 16 v50 h-480 z" fill="#343a40"/>
+<text x="584" y="183" font-size="21" font-weight="600" fill="#ffffff" text-anchor="start">Raspberry Pi Pico W</text>
+<text x="584" y="205" font-size="13" font-weight="400" fill="#ced4da" text-anchor="start">RP2040 · plugged into the DFRobot Gravity board</text>
+<text x="584" y="252" font-size="14" font-weight="600" fill="#495057" text-anchor="start">Tasks (asyncio) and how often they run</text>
+<text x="584" y="290" font-size="15" font-weight="400" fill="#212529" text-anchor="start">Button: on / off</text>
+<text x="1016" y="290" font-size="15" font-weight="600" fill="#0c8599" text-anchor="end">every 20 ms</text>
+<line x1="584" y1="304" x2="1016" y2="304" stroke="#e9ecef" stroke-width="1"/>
+<text x="584" y="328" font-size="15" font-weight="400" fill="#212529" text-anchor="start">Ranging: 2 sensors, alternating</text>
+<text x="1016" y="328" font-size="15" font-weight="600" fill="#0c8599" text-anchor="end">every 60 ms</text>
+<line x1="584" y1="342" x2="1016" y2="342" stroke="#e9ecef" stroke-width="1"/>
+<text x="584" y="366" font-size="15" font-weight="400" fill="#212529" text-anchor="start">Indicator: LED colour + relay click</text>
+<text x="1016" y="366" font-size="15" font-weight="600" fill="#0c8599" text-anchor="end">every 50 ms</text>
+<line x1="584" y1="380" x2="1016" y2="380" stroke="#e9ecef" stroke-width="1"/>
+<text x="584" y="404" font-size="15" font-weight="400" fill="#212529" text-anchor="start">OLED display</text>
+<text x="1016" y="404" font-size="15" font-weight="600" fill="#0c8599" text-anchor="end">every 200 ms</text>
+<line x1="584" y1="418" x2="1016" y2="418" stroke="#e9ecef" stroke-width="1"/>
+<text x="584" y="442" font-size="15" font-weight="400" fill="#212529" text-anchor="start">Cloud logger: Wi-Fi, NTP, upload</text>
+<text x="1016" y="442" font-size="15" font-weight="600" fill="#0c8599" text-anchor="end">every 20 s</text>
+<text x="584" y="498" font-size="13" font-weight="400" fill="#495057" text-anchor="start">Echo edges: hardware interrupt, time-stamped in µs</text>
+<text x="584" y="522" font-size="13" font-weight="400" fill="#495057" text-anchor="start">Each sensor is measured every 120 ms</text>
+<text x="584" y="546" font-size="13" font-weight="400" fill="#495057" text-anchor="start">LED and relay tick 1–5× per second, faster when closer</text>
+<text x="584" y="570" font-size="13" font-weight="400" fill="#495057" text-anchor="start">Clock set by NTP after connecting, then every 6 h</text>
+<rect x="584" y="640" width="208" height="100" rx="10" fill="#ffffff" stroke="#ced4da" stroke-width="1.2"/>
+<text x="600" y="668" font-size="15" font-weight="600" fill="#212529" text-anchor="start">Power</text>
+<text x="600" y="694" font-size="13" font-weight="400" fill="#495057" text-anchor="start">USB 5 V → VBUS (5 V)</text>
+<text x="600" y="716" font-size="13" font-weight="400" fill="#495057" text-anchor="start">regulator → 3V3 (3.3 V)</text>
+<rect x="808" y="640" width="208" height="100" rx="10" fill="#ffffff" stroke="#ced4da" stroke-width="1.2"/>
+<text x="824" y="668" font-size="15" font-weight="600" fill="#212529" text-anchor="start">Wi-Fi radio</text>
+<text x="824" y="694" font-size="13" font-weight="400" fill="#495057" text-anchor="start">CYW43439, 2.4 GHz</text>
+<text x="824" y="716" font-size="13" font-weight="400" fill="#495057" text-anchor="start">HTTP upload, NTP time</text>
+<rect x="80" y="170" width="300" height="100" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="104" y="206" font-size="18" font-weight="600" fill="#212529" text-anchor="start">HC-SR04 #1 (left)</text>
+<text x="104" y="232" font-size="14" font-weight="400" fill="#495057" text-anchor="start">ultrasonic distance sensor</text>
+<rect x="316" y="184" width="48" height="24" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.2"/>
+<text x="340.0" y="201" font-size="13" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<line x1="558" y1="205" x2="382" y2="205" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="470.0" y="195" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">Trig · GP20</text>
+<line x1="382" y1="238" x2="416" y2="238" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<rect x="418" y="221" width="104" height="34" rx="8" fill="#fff4e6" stroke="#e8590c" stroke-width="1.4"/>
+<text x="470" y="235" font-size="12" font-weight="600" fill="#d9480f" text-anchor="middle">divider</text>
+<text x="470" y="250" font-size="12" font-weight="500" fill="#d9480f" text-anchor="middle">5 V → 3.3 V</text>
+<line x1="524" y1="238" x2="558" y2="238" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="470" y="272" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">Echo · GP21</text>
+<rect x="80" y="320" width="300" height="100" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="104" y="356" font-size="18" font-weight="600" fill="#212529" text-anchor="start">HC-SR04 #2 (right)</text>
+<text x="104" y="382" font-size="14" font-weight="400" fill="#495057" text-anchor="start">ultrasonic distance sensor</text>
+<rect x="316" y="334" width="48" height="24" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.2"/>
+<text x="340.0" y="351" font-size="13" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<line x1="558" y1="355" x2="382" y2="355" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="470.0" y="345" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">Trig · GP18</text>
+<line x1="382" y1="388" x2="416" y2="388" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<rect x="418" y="371" width="104" height="34" rx="8" fill="#fff4e6" stroke="#e8590c" stroke-width="1.4"/>
+<text x="470" y="385" font-size="12" font-weight="600" fill="#d9480f" text-anchor="middle">divider</text>
+<text x="470" y="400" font-size="12" font-weight="500" fill="#d9480f" text-anchor="middle">5 V → 3.3 V</text>
+<line x1="524" y1="388" x2="558" y2="388" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="470" y="422" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">Echo · GP19</text>
+<rect x="80" y="470" width="300" height="100" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="104" y="506" font-size="18" font-weight="600" fill="#212529" text-anchor="start">Push button</text>
+<text x="104" y="532" font-size="14" font-weight="400" fill="#495057" text-anchor="start">sensors on / off</text>
+<line x1="382" y1="520" x2="558" y2="520" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="470.0" y="510" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">GP17 · digital in</text>
+<rect x="80" y="620" width="300" height="140" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="104" y="656" font-size="18" font-weight="600" fill="#212529" text-anchor="start">USB power, 5 V</text>
+<text x="104" y="684" font-size="14" font-weight="400" fill="#495057" text-anchor="start">VBUS 5 V → sensors, relay</text>
+<text x="104" y="708" font-size="14" font-weight="400" fill="#495057" text-anchor="start">Pico 3V3 out → OLED</text>
+<text x="104" y="734" font-size="13" font-weight="400" fill="#868e96" text-anchor="start">computer port or ≥ 1 A charger</text>
+<line x1="382" y1="690" x2="582" y2="690" stroke="#e8590c" stroke-width="2" marker-end="url(#ao)"/>
+<text x="482.0" y="680" font-size="13" font-weight="500" fill="#d9480f" text-anchor="middle">USB 5 V</text>
+<rect x="1220" y="170" width="300" height="100" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="1244" y="206" font-size="18" font-weight="600" fill="#212529" text-anchor="start">RGB LED</text>
+<text x="1244" y="232" font-size="14" font-weight="400" fill="#495057" text-anchor="start">zone colour, blinking</text>
+<rect x="1440" y="184" width="64" height="24" rx="12" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.2"/>
+<text x="1472.0" y="201" font-size="13" font-weight="700" fill="#1864ab" text-anchor="middle">3.3 V</text>
+<line x1="1042" y1="220" x2="1218" y2="220" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="1130.0" y="210" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">PWM · GP12, GP13, GP14</text>
+<rect x="1220" y="320" width="300" height="100" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="1244" y="356" font-size="18" font-weight="600" fill="#212529" text-anchor="start">Relay module</text>
+<text x="1244" y="382" font-size="14" font-weight="400" fill="#495057" text-anchor="start">one click per blink</text>
+<rect x="1456" y="334" width="48" height="24" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.2"/>
+<text x="1480.0" y="351" font-size="13" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<line x1="1042" y1="370" x2="1218" y2="370" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="1130.0" y="360" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">GP16 · digital out</text>
+<rect x="1220" y="470" width="300" height="100" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="1244" y="506" font-size="18" font-weight="600" fill="#212529" text-anchor="start">OLED display</text>
+<text x="1244" y="532" font-size="14" font-weight="400" fill="#495057" text-anchor="start">SH1106 · distances, events</text>
+<rect x="1440" y="484" width="64" height="24" rx="12" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.2"/>
+<text x="1472.0" y="501" font-size="13" font-weight="700" fill="#1864ab" text-anchor="middle">3.3 V</text>
+<line x1="1042" y1="520" x2="1218" y2="520" stroke="#495057" stroke-width="2" marker-end="url(#ag)" marker-start="url(#ag)"/>
+<text x="1130.0" y="510" font-size="13" font-weight="500" fill="#495057" text-anchor="middle">I2C0 · SDA GP4, SCL GP5</text>
+<rect x="1220" y="620" width="300" height="140" rx="12" fill="#f3f0ff" stroke="#7048e8" stroke-width="1.5" stroke-dasharray="8 6"/>
+<text x="1244" y="656" font-size="18" font-weight="600" fill="#5f3dc4" text-anchor="start">Internet (phone hotspot)</text>
+<text x="1244" y="686" font-size="14" font-weight="400" fill="#495057" text-anchor="start">ThingSpeak: event log (HTTP)</text>
+<text x="1244" y="712" font-size="14" font-weight="400" fill="#495057" text-anchor="start">NTP server: exact time (UTC)</text>
+<line x1="1018" y1="690" x2="1218" y2="690" stroke="#7048e8" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#av)" marker-start="url(#av)"/>
+<text x="1118.0" y="680" font-size="13" font-weight="500" fill="#5f3dc4" text-anchor="middle">Wi-Fi</text>
+<line x1="80" y1="826" x2="128" y2="826" stroke="#495057" stroke-width="2" marker-end="url(#ag)"/>
+<text x="140" y="831" font-size="13" font-weight="400" fill="#495057" text-anchor="start">wired signal (GPIO, PWM, I2C)</text>
+<line x1="400" y1="826" x2="448" y2="826" stroke="#7048e8" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#av)"/>
+<text x="460" y="831" font-size="13" font-weight="400" fill="#495057" text-anchor="start">Wi-Fi link</text>
+<rect x="580" y="814" width="64" height="24" rx="12" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.2"/>
+<text x="612.0" y="831" font-size="13" font-weight="700" fill="#1864ab" text-anchor="middle">3.3 V</text>
+<rect x="652" y="814" width="48" height="24" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.2"/>
+<text x="676.0" y="831" font-size="13" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<text x="712" y="831" font-size="13" font-weight="400" fill="#495057" text-anchor="start">voltage the module runs on</text>
+<text x="1520" y="831" font-size="13" font-weight="400" fill="#868e96" text-anchor="end">Pins, wire by wire: see the wiring diagram</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo3OGM3MDc0NS0wYjgwLTQzOTItYmFkZC1hYTNkOTk5NWEzNTQAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaK9Up0AwhkVrOlpWmchie8gAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDoxNjE1ZTdhMC1kYmZhLTQ3MWEtYjYxNC01NzE3ZThlZDMxZjlscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoSi346SEmRYGL9IUh6V58dQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg/jckp0oIYTH8BaM6SW1o7JBAq0VJrRLm3dKzNn+VwU6kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaLEUzWrVlcopi9uj+QP/7lsAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIHX9q5IKxqymzkeYTFrPM10adJxnQHXQEItwt71K85vvZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GTZPZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjc4YzcwNzQ1LTBiODAtNDM5Mi1iYWRkLWFhM2Q5OTk1YTM1NC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmM4NTUwOWFlLWUxMWItNDA5Mi1hYWM4LThlMWRiZGQxY2U5ZXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCD+NySnSghhMfwFozpJbWjskECrRUmtEubd0rM2f5XBTqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggxVm5UflAQSCco9Ob8NdMaLaA/4jy9IA7KEONUA9iaESiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg9RCSjmFxdCP0TDxR2FEIfRpIw7iJvQqmzDczluYMEAZ0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQAc9amcthQ09QG4wydyOYrAPJTV0bGqXJlFQVm11pOH+gpgnMK7Je8eqNrYRNh6W+3vFiRYE2jx3war5zquhjUs=</c2pa:manifest></metadata></svg>

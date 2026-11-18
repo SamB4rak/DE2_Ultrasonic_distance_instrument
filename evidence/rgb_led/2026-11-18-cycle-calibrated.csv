@@ -1,0 +1,12 @@
+# mode=cycle freq_hz=1000 common_anode=False
+# starting in 3
+# starting in 2
+# starting in 1
+step,name,r,g,b,duty_r,duty_g,duty_b
+1,green,0,255,0,0,65535,0
+2,yellow,255,90,0,65535,23130,0
+3,red,255,0,0,65535,0,0
+4,blue,0,0,255,0,0,65535
+5,magenta,255,0,255,65535,0,65535
+6,off,0,0,0,0,0,0
+# summary: cycle of 6 colours, 5 s each, yellow=(255, 90, 0)

@@ -1,0 +1,15 @@
+# mode=yellow freq_hz=1000 common_anode=False
+# starting in 3
+# starting in 2
+# starting in 1
+step,name,r,g,b,duty_r,duty_g,duty_b
+1,yellow_g40,255,40,0,65535,10280,0
+2,yellow_g60,255,60,0,65535,15420,0
+3,yellow_g80,255,80,0,65535,20560,0
+4,yellow_g100,255,100,0,65535,25700,0
+5,yellow_g120,255,120,0,65535,30840,0
+6,yellow_g140,255,140,0,65535,35980,0
+7,yellow_g160,255,160,0,65535,41120,0
+8,yellow_g180,255,180,0,65535,46260,0
+9,yellow_g200,255,200,0,65535,51400,0
+# summary: yellow calibration, R=255, G=40..200 step 20, 9 steps, 3 s each
