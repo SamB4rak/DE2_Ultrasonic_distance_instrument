@@ -19,7 +19,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | [OLED Displej](https://robu-prod-media.s3.ap-south-1.amazonaws.com/uploads/2019/12/1.3-Inch-I2C-IIC-OLED-LCD-Module-4pin-with-VCC-GND-Blue-1.pdf) | Pro vizuální indikaci za pomoci zobrazení vzdáleností z obou senzorů, poslední zaznamenané události a stavu Wi-Fi a odesílání. |
 | **Tlačítko** | Pro zapnutí a vypnutí senzorů. |
 | [RGB LED](https://arwill.hu/forras/termek/kit-ek/ky-016-rgb-led-modul-506261.pdf) | Pro vizuální indikaci za pomoci svícení dané barvy (zelená = daleko, žlutá = středně, červená = blízko) a rychlosti blikání. |
-| **Relé modul** | Pro zvukovou indikaci za pomoci cvakání ve stejném rytmu, v jakém bliká LED. |
+| [Relé modul](https://dratek.cz/docs/produkty/0/579/1517442331.pdf) | Pro zvukovou indikaci za pomoci cvakání ve stejném rytmu, v jakém bliká LED. |
 
 ## Schémata
 * **Blokové schéma:** [![Schematic Preview](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
