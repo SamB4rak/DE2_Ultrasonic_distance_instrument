@@ -445,7 +445,7 @@ def test_clock_is_shared_by_everything(vrun):
     assert loop_time == pytest.approx(0.005)
 
 
-# --- review additions --------------------------------------------------------
+# --- more edge cases ----------------------------------------------------------
 
 
 def test_wait_for_ms_timeout_is_not_an_oserror(vrun):

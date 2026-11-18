@@ -1,15 +1,11 @@
-"""PWM driver for the RGB LED module.
+"""Driver for the RGB LED module.
 
-The LED shows the zone colour of the instrument. Each channel (red, green,
-blue) is driven by PWM with a value of 0-255, so mixed colours such as yellow
-can be tuned. Common-cathode modules (the default) light up with a high duty;
-common-anode modules are supported by inverting the duty.
+The LED shows the colour of the current zone. Each channel (red, green, blue)
+is set by PWM from 0 to 255, so mixed colours like yellow can be tuned. Our
+module is common cathode; common-anode modules work too (the duty is inverted).
 
-Credits:
-    Based on the ``RGBLed`` class of BPC-DE2 lab 3 (Brno University of
-    Technology, FEKT), the team's own lab solution: one class that is composed
-    of three pins and offers ``off()``. Extended here from digital on/off to
-    PWM colours, a common-anode option, ``current`` and ``deinit()``.
+Based on our ``RGBLed`` class from lab 3 of BPC-DE2 (FEKT VUT), extended from
+on/off to PWM colours.
 """
 
 from machine import Pin, PWM

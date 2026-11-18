@@ -1,13 +1,11 @@
-"""Syntax-check every ``src/**/*.py`` with mpy-cross (MicroPython's compiler).
+"""Check that every file in ``src/`` compiles with MicroPython's compiler.
 
 Usage::
 
     python tools/check_mpy.py
 
-Each file is compiled to ``<temp dir>/<name>.mpy``; the output is thrown away.
-It catches syntax that CPython accepts but MicroPython does not. mpy-cross is
-pinned to the firmware's MicroPython version in ``requirements-dev.txt``.
-Exit code 1 if any file fails to compile.
+This catches code that works on a PC but not on the Pico. The compiled output
+is thrown away; the exit code is 1 if any file fails.
 """
 
 import os

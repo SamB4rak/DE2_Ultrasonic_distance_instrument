@@ -21,53 +21,51 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | [RGB LED](https://arwill.hu/forras/termek/kit-ek/ky-016-rgb-led-modul-506261.pdf) | 1 | Pro vizuální indikaci za pomoci svícení dané barvy (zelená = daleko, žlutá = středně, červená = blízko) a rychlosti blikání. |
 | [Relé modul](https://dratek.cz/docs/produkty/0/579/1517442331.pdf) | 1 | Pro zvukovou indikaci za pomoci cvakání ve stejném rytmu, v jakém bliká LED. |
 | **Rezistory (1kΩ a 2kΩ)** | 2 a 2 | Pro vytvoření děliče, který z 5 V udělá 3,3 V bezpečné pro piny Raspberry Pi Pico W |
-| **Rezistory (10 kΩ)** | 2 | Z pinu Trig na GND: senzor má na Trig vlastní pull-up 10 kΩ na 5 V, takže pin Pica, který ho ještě neovládá (např. při startu), zůstane na bezpečných 2,5 V. |
-| **Rezistory (4,7 kΩ)** | 3 | Pull-upy na 3,3 V pro vstup IN relé a pro linky SDA a SCL displeje. |
-| **Kondenzátory (100 nF a 10–47 µF)** | 3 a 1 | Blokovací kondenzátory: 100 nF u napájení každého senzoru a relé, 10–47 µF navíc u relé. |
+| **Rezistory (10 kΩ)** | 2 | Drží vstup Trig na bezpečném napětí, dokud ho Pico při startu neovládá. |
+| **Rezistory (4,7 kΩ)** | 3 | Pull-upy pro relé a pro I2C displeje. |
+| **Kondenzátory (100 nF a 10–47 µF)** | 3 a 1 | Stabilizují napájení senzorů a relé. |
 * Ochrana: Ultrazvukový senzor HC-SR04 bude správně fungovat s napájecím napětím 5 V. Je proto připojený na pin *VBUS*. Signál, který je pak posílaný přes pin *ECHO* má taktéž 5 V nicméně piny Raspberry Pi Pico W zvládnou jen 3,3 V. Proto pomocí 2 rezistorů se vytvoří napěťový dělič 2/3, který napětí z 5 V sníží na 3,3 V.
 ## Schémata
 * **Blokové schéma:** [![Blokové schéma](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
 
-* **Schéma zapojení (pin po pinu):** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
+* **Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
 
 | **Modul** | **Zapojení** |
 | :--- | :--- |
 | HC‑SR04 #1 (vlevo) | VCC → 5 V (VBUS, pin 40), Trig → GP20 (pin 26) + 10 kΩ na GND, Echo → dělič 1 kΩ / 2 kΩ → GP21 (pin 27), GND → GND |
 | HC‑SR04 #2 (vpravo) | VCC → 5 V (VBUS, pin 40), Trig → GP18 (pin 24) + 10 kΩ na GND, Echo → dělič 1 kΩ / 2 kΩ → GP19 (pin 25), GND → GND |
-| Tlačítko | GP17 (pin 22) a GND (vnitřní pull-up, stisk = log. 0) |
+| Tlačítko | GP17 (pin 22) a GND |
 | RGB LED | R → GP12 (pin 16), G → GP13 (pin 17), B → GP14 (pin 19), − → GND |
-| Relé modul | DC+ → 5 V (VBUS, pin 40), DC− → GND, IN → GP16 (pin 21) + pull-up 4,7 kΩ na 3V3 |
-| OLED displej | VCC → 3V3 (pin 36), GND → GND, SCL → GP5 (pin 7), SDA → GP4 (pin 6) + pull-upy 4,7 kΩ na 3V3 |
+| Relé modul | DC+ → 5 V (VBUS, pin 40), DC− → GND, IN → GP16 (pin 21) + 4,7 kΩ na 3V3 |
+| OLED displej | VCC → 3V3 (pin 36), GND → GND, SCL → GP5 (pin 7), SDA → GP4 (pin 6) + 4,7 kΩ na 3V3 |
 
-Senzory a relé jsou napájené z 5 V (VBUS, pin 40), OLED displej a pull-up rezistory z výstupu 3V3 Pica (pin 36). GND je kterýkoli černý pin, všechny země jsou spojené. Celé zařízení se napájí přes USB.
+Senzory a relé běží z 5 V, displej z 3,3 V. Všechny země jsou spojené a celé zařízení se napájí přes USB. Dělič u Echo: *U* = 5 V · 2 kΩ / (1 kΩ + 2 kΩ) ≈ 3,33 V.
 
-Dělič u výstupu Echo: *U* = 5 V · 2 kΩ / (1 kΩ + 2 kΩ) ≈ 3,33 V.
+## Časování
+Program běží v `asyncio`: každá úloha se pravidelně probudí, udělá svou práci a zase uspí.
 
-## Časování tasků
-Program běží v knihovně `asyncio`: každý task se pravidelně probudí, udělá svou práci a zase se uspí, takže se tasky navzájem neblokují.
+| **Úloha** | **Jak často** | **Co dělá** |
+| :--- | :---: | :--- |
+| Tlačítko | 20 ms | Zapíná a vypíná senzory. Zákmity tlačítka trvají do 10 ms, takže žádný stisk neunikne. |
+| Měření | 60 ms | Střídá levý a pravý senzor, každý měří 8× za sekundu. Kratší odstup by zachytil ozvěnu předchozího měření. |
+| Události | po každém měření | Zapíše změnu zóny, příchod a odchod objektu a jednou za minutu aktuální vzdálenosti. |
+| LED a relé | 50 ms | Barva podle zóny, bliknutí a cvaknutí 1–5× za sekundu: čím blíž, tím rychleji. |
+| Displej | 200 ms | Vzdálenosti, poslední událost a stav Wi-Fi. Obraz se posílá po částech, aby nezdržoval měření. |
+| Cloud | 20 s | Pošle nové události do ThingSpeaku, který přijímá data nejdřív po 15 s. Čas si bere z NTP po připojení a pak každých 6 h. |
+| Echo | při každé hraně | Přerušení jen zapíše čas hrany, vzdálenost spočítá úloha měření. |
 
-| **Task** | **Perioda** | **Co dělá** | **Proč tato perioda** |
-| :--- | :---: | :--- | :--- |
-| Tlačítko (`mode_task`) | 20 ms | Čte tlačítko, odfiltruje zákmity (40 ms) a zapíná nebo vypíná senzory. | Zákmity tlačítka trvají do 10 ms, takže 20 ms žádný stisk nepropásne; kurz doporučuje 20–50 ms. |
-| Měření (`ranging_task`) | 60 ms | Střídavě spouští levý a pravý senzor, takže každý měří jednou za 120 ms. Hodnoty filtruje mediánem ze 3 měření, vybere bližší z obou vzdáleností a určí zónu. | Mezi dvěma pingy musí uplynout aspoň 60 ms, jinak senzor zachytí ozvěnu předchozího pingu nebo ping druhého senzoru. Každý senzor tak měří 8,3× za sekundu. |
-| Detektor událostí | po každém měření | Zaznamená změnu zóny, příchod a odchod objektu (odchod až po 3 s bez objektu) a každých 60 s pravidelné měření. | Běží hned po měření, takže mu žádná změna neunikne. Odchod čeká 3 s, aby krátký výpadek měření nezaložil novou návštěvu. |
-| Indikace (`indicator_task`) | 50 ms | Nastaví barvu LED podle zóny. LED blikne a relé cvakne (na 50 ms) 1–5× za sekundu: čím blíž objekt, tím rychleji. | Změna zóny se ukáže do 50 ms. Nejrychlejší rytmus je 5× za sekundu (perioda 200 ms), takže krok 50 ms stačí. |
-| Displej (`display_task`) | 200 ms | Překreslí vzdálenosti, poslední událost a stav Wi-Fi. | 5 obnovení za sekundu stačí ke čtení. Celý obraz zabere na I2C asi 25 ms, proto se posílá po 8 částech (asi 3 ms) a ostatní tasky neblokuje. |
-| Cloud (`logger_task`) | 20 s | Odešle nasbírané události do ThingSpeaku (nejdříve 15 s po minulém odeslání). Při výpadku zkouší Wi-Fi znovu po 10 s. Přesný čas bere z NTP po připojení a pak každých 6 h. | Bezplatný ThingSpeak přijme hromadné nahrání nejdříve 15 s po předchozím. Hodiny Pica se za den rozejdou až o několik sekund, NTP každých 6 h je drží zhruba na 1 s. |
-| Přerušení od Echo | při každé hraně | Hardwarové přerušení jen uloží čas hrany v µs, vzdálenost z něj spočítá task měření. | Čas hrany potřebujeme přesně (1 µs ≈ 0,17 mm vzdálenosti) a obsluha přerušení má být co nejkratší, proto výpočet běží mimo ni. |
-
-## MicroPython a využité knihovny
+## Software
 * **MicroPython 1.29.0** (firmware `RPI_PICO_W`)
-* **Vestavěné moduly MicroPythonu:** `asyncio`, `machine` (`Pin`, `PWM`, `I2C`), `time`, `network` (Wi-Fi), `ntptime`, `socket`, `json`, `framebuf`, `micropython`, `sys`
-* **Ovladač OLED displeje:** `sh1106.py` z projektu [robert-hh/SH1106](https://github.com/robert-hh/SH1106) (licence MIT)
-* **Na počítači:** `mpremote` 1.29.0 (nahrávání do Pica), `mpy-cross` 1.29.0.post2 (kontrola kódu před nahráním), `pytest` 9.2.0 (testy na PC)
+* **Vestavěné moduly:** `asyncio`, `machine`, `time`, `network`, `ntptime`, `socket`, `json`, `framebuf`, `micropython`, `sys`
+* **Ovladač displeje:** `sh1106.py` od [robert-hh](https://github.com/robert-hh/SH1106) (licence MIT)
+* **Na počítači:** `mpremote` (nahrávání do Pica), `mpy-cross` (kontrola kódu) a `pytest` (testy)
 
 ## Rozdělení práce v týmu
-Na zapojení a testování pracujeme všichni společně na cvičeních. Za jednotlivé části odpovídají:
+Na zapojení a testování pracujeme všichni společně.
 
-| **Člen týmu** | **Zodpovídá za** |
+| **Člen týmu** | **Na starosti** |
 | :--- | :--- |
-| Samuel Barák | návrh programu a propojení modulů do jednoho programu, testy; drobné průběžné úpravy repozitáře |
-| Daniel Blumaier | plakát a prezentace včetně videa, fotky prototypu, doplňky navíc |
-| Samuel Breza | hardware: zapojení na nepájivém poli, senzory s děliči napětí, displej, RGB LED, relé a tlačítko; měření přesnosti senzorů |
-| Denis Bureš | větší úpravy repozitáře a dokumentace: README, dokumentace Sphinx, výsledky testů |
+| Samuel Barák | návrh programu, propojení modulů a testy, drobné úpravy repozitáře |
+| Daniel Blumaier | plakát, prezentace a video, fotky, doplňky |
+| Samuel Breza | hardware: zapojení, senzory s děliči, displej, LED, relé a tlačítko; měření přesnosti |
+| Denis Bureš | větší úpravy repozitáře a dokumentace (README, Sphinx, výsledky testů) |

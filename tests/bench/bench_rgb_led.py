@@ -51,7 +51,7 @@ def show(led, step, name, rgb, hold_s):
 
 
 def main():
-    """Run the selected bench mode."""
+    """Run the selected test pattern."""
     led = RGBLed(board.PIN_LED_R, board.PIN_LED_G, board.PIN_LED_B)
     try:
         print("# mode={} freq_hz={} common_anode={}".format(

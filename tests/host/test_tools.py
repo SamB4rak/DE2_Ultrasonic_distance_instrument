@@ -205,7 +205,7 @@ def test_check_mpy_passes_good_and_fails_bad_files(tmp_path, capsys):
     assert "2 file(s), 1 failed" in out
 
 
-# --- review additions --------------------------------------------------------
+# --- more edge cases ----------------------------------------------------------
 
 
 def test_parse_handles_a_bom_and_annotated_assignments():

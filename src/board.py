@@ -1,15 +1,13 @@
-"""Pin map and wiring polarity of the ultrasonic distance instrument.
+"""Pin map of the instrument.
 
-Raspberry Pi Pico WH on a DFRobot Pico Gravity board V3.0. Every module
-imports its GPIO numbers from here; no other file hard-codes a pin.
+Raspberry Pi Pico WH on the DFRobot Pico Gravity board. Every module takes
+its pin numbers from here.
 
-Electrical notes:
-    * RP2040 pins are 3.3 V only. Each HC-SR04 Echo reaches its GPIO through a
-      divider (1 kOhm in series, 2 kOhm to GND), and each Trig line has a
-      10 kOhm pull-down.
-    * The HC-SR04s and the relay module run from VBUS 5 V (Pico pin 40), never
-      from a Gravity 3V3 row. The relay contacts stay unwired.
-    * GP23, GP24, GP25 and GP29 belong to the CYW43439 Wi-Fi chip: never use them.
+    * The Pico's pins are 3.3 V only. Each HC-SR04 Echo goes through a divider
+      (1 kOhm in series, 2 kOhm to GND), and each Trig has 10 kOhm to GND.
+    * The HC-SR04s and the relay run from VBUS 5 V (pin 40). Nothing is
+      connected to the relay contacts.
+    * GP23, GP24, GP25 and GP29 are used by the Wi-Fi chip.
 """
 
 PIN_BUTTON = 17

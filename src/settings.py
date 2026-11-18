@@ -1,17 +1,14 @@
-"""Tunable settings of the ultrasonic distance instrument.
+"""Settings of the ultrasonic distance instrument, grouped by part.
 
-Each ``# --- Sxx ... ---`` section holds the values that one development step
-owns; that step may change values only.
-Every ``*_MS``, ``*_US`` and ``*_S`` value is an integer, because
-``time.sleep_ms``, ``time.ticks_add`` and ``asyncio.wait_for_ms`` reject floats
-on the Pico. Convert seconds with ``* 1000``, never ``/``. Colours are
-``(r, g, b)`` tuples with values 0-255. Distances are in metres.
+Times (``*_MS``, ``*_US``, ``*_S``) are whole numbers, because the Pico's
+timing functions don't accept floats; convert seconds with ``* 1000``.
+Distances are in metres, colours are ``(r, g, b)`` with values 0-255.
 """
 
-# --- S00 general ---
+# --- General ---
 I2C_FREQ_HZ = 400_000        # drop to 100_000 if bus errors appear
 
-# --- S01 logic ---
+# --- Distances, zones and events ---
 D_MIN_M = 0.02               # closer readings are clamped to this
 D_MAX_M = 4.0                # farther readings count as "no target"
 ZONE_FAR_M = 1.0             # d > 1.0 m -> far
@@ -28,12 +25,12 @@ ALERT_CONFIRM = 2            # detector calls (slots) in a row inside ALERT_M be
 LEAVE_HOLD_MS = 3000         # outside ALERT_M this long before LEAVE
 SAMPLE_PERIOD_S = 60         # a SAMPLE event this often while RUN
 
-# --- S02 hcsr04 ---
+# --- Ultrasonic sensors ---
 ECHO_WAIT_MS = 36            # evaluate the edges this long after Trig
 ECHO_TIMEOUT_US = 30_000     # rise -> fall limit (about 5.1 m)
 FAULT_AFTER = 3              # consecutive NO_RISE or BUSY outcomes before a sensor is faulty
 
-# --- S03 rgb ---
+# --- RGB LED ---
 PWM_FREQ_HZ = 1000
 COLOR_GREEN = (0, 255, 0)
 COLOR_YELLOW = (255, 90, 0)  # calibrated on the bench (R 255, G picked from 40..200)
@@ -42,19 +39,19 @@ COLOR_BLUE = (0, 0, 255)
 COLOR_MAGENTA = (255, 0, 255)
 COLOR_OFF = (0, 0, 0)
 
-# --- S04 relay ---
+# --- Relay ---
 RELAY_PULSE_MS = 50
 
-# --- S05 button ---
+# --- Button ---
 BUTTON_POLL_MS = 20
 BUTTON_DEBOUNCE_MS = 40      # raw level stable this long (3 polls)
 
-# --- S07 display ---
+# --- Display ---
 DISPLAY_PERIOD_MS = 200
 DISPLAY_RETRY_MS = 2000      # re-initialise a missing display at most this often
 OLED_CONTROLLER = "sh1106"   # or "ssd1306" if the bench test says so
 
-# --- S08 network ---
+# --- Wi-Fi, clock and ThingSpeak ---
 UPLOAD_PERIOD_S = 20         # try a batch upload this often
 UPLOAD_MIN_GAP_S = 15        # ThingSpeak free plan: at least 15 s between bulk updates
 UPLOAD_BATCH_MAX = 50        # updates per bulk request (ThingSpeak allows 960)
@@ -67,7 +64,7 @@ NTP_RETRY_S = 300            # after a failed sync, wait this long before the ne
 THINGSPEAK_HOST = "api.thingspeak.com"
 THINGSPEAK_PORT = 80
 
-# --- S09 integration ---
+# --- Task timing ---
 RANGING_SLOT_MS = 60
 INDICATOR_STEP_MS = 50
 EVENT_QUEUE_LEN = 100        # events kept while offline; the oldest go first

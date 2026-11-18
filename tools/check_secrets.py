@@ -1,27 +1,14 @@
-"""Scan the files git would commit for leaked Wi-Fi or ThingSpeak secrets.
+"""Check that no Wi-Fi password or ThingSpeak key ends up in git.
 
 Usage::
 
-    python tools/check_secrets.py            # the working tree
-    python tools/check_secrets.py --history  # also every commit (git log -p --all)
+    python tools/check_secrets.py            # the files git would commit
+    python tools/check_secrets.py --history  # also every past commit
 
-What it looks for:
-    1. the values of ``WIFI_SSID``, ``WIFI_PASSWORD`` and ``THINGSPEAK_WRITE_KEY``
-       from ``src/config.py``, if that file exists (values shorter than 6
-       characters are skipped);
-    2. generic patterns: ``api_key=`` followed by 16 letters or digits
-       (``API_KEY_PARAM``), and a quoted 16-character uppercase key
-       (``QUOTED_KEY``).
-
-It prints only ``LEAK <file>:<line> <NAME>`` per hit (with ``--history`` also
-``LEAK <commit>:<file> <NAME>``, or ``LEAK <commit>:<message> <NAME>`` for a hit
-in a commit message), or ``OK``. It never prints a secret value or the
-matching line. If ``src/config.py`` exists but one of the three names can't be
-read from it, it prints ``WARN src/config.py: <NAME> not parsed``, because
-the scan couldn't look for that value. Exit code 1 on any leak or warning.
-
-Apart from mpremote copying it during deploy, this is the only program that
-opens ``src/config.py``. It parses the file without running it.
+It looks for the values from ``src/config.py`` (if the file exists) and for
+anything that looks like an API key. It prints only where it found something,
+never the secret itself, or ``OK``. The exit code is 1 on any finding, or if
+it couldn't read one of the values from ``config.py``.
 """
 
 import argparse

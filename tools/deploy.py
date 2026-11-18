@@ -1,23 +1,14 @@
-"""Copy ``src/`` to the Pico's root file system with mpremote.
+"""Copy ``src/`` to the Pico with mpremote.
 
 Usage::
 
-    python tools/deploy.py             # copy, then print the device's file tree
-    python tools/deploy.py --dry-run   # print what would be copied; touch nothing
-    python tools/deploy.py --clean     # remove every file on the device first
+    python tools/deploy.py             # copy, then list the files on the Pico
+    python tools/deploy.py --dry-run   # only show what would be copied
+    python tools/deploy.py --clean     # delete everything on the Pico first
 
-Each entry of ``src/`` goes to the device root: ``src/main.py`` becomes
-``/main.py`` and ``src/lib/`` becomes ``/lib``. (``mpremote cp -r src :``
-would create ``/src`` instead.) Folders are copied file by file, so
-``__pycache__/``, ``*.mpy`` and ``.gitkeep`` never reach the device.
-
-``src/config.py`` (the Wi-Fi and ThingSpeak secrets) is simply one of those
-entries: it is copied if it exists. Otherwise a warning says the cloud logger
-won't start. This script only passes the path to mpremote; it never opens or
-prints the file.
-
-Without ``--clean`` nothing on the device is ever deleted. Close any other
-program that holds the serial port (e.g. MicroPico in VS Code) first.
+The files land in the Pico's root (``src/main.py`` becomes ``/main.py``).
+Your ``src/config.py`` is copied too if it exists; the script never opens it.
+Close other programs that use the Pico's USB port (e.g. MicroPico) first.
 """
 
 import argparse
