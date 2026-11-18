@@ -24,7 +24,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 ## Schémata
 * **Blokové schéma:** [![Schematic Preview](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
 
-* **Schéma zapojení:** [![Schematic Preview](schema_zapojeni.png)]
+* **Schéma zapojení:** ![Schematic Preview](schema_zapojeni.png)]
 
 
 
