@@ -1,0 +1,268 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1262" viewBox="0 0 1800 1262" role="img" aria-labelledby="title desc" xmlns:c2pa="http://c2pa.org/manifest">
+<title id="title">Ultrasonic distance instrument: wiring diagram</title>
+<desc id="desc">Pin-by-pin wiring. HC-SR04 #1: VCC to VBUS 5 V, Trig to GP20 (pin 26) with 10 kilohm to GND, Echo through 1 kilohm to GP21 (pin 27) with 2 kilohm from GP21 to GND, GND to GND, 100 nF across VCC and GND. HC-SR04 #2: the same with Trig GP18 (pin 24) and Echo GP19 (pin 25). The dividers bring the 5 V Echo down to about 3.3 V. Push button: one leg to GP17 (pin 22), the diagonal leg to GND. RGB LED module: R to GP12 (pin 16), G to GP13 (pin 17), B to GP14 (pin 19), minus to GND. Relay module: DC+ to VBUS 5 V (pin 40), DC- to GND, 100 nF and 10 to 47 microfarad across DC+ and DC-, IN to GP16 (pin 21) with a 4.7 kilohm pull-up to 3V3; contacts unwired. OLED SH1106: VCC to 3V3, GND to GND, SCL to GP5 (pin 7), SDA to GP4 (pin 6), each with a 4.7 kilohm pull-up to 3V3. 5 V is VBUS, pin 40, for the sensors and the relay; 3V3 is Pico pin 36, the red pin of every Gravity row; GND is any black pin.</desc>
+<defs><style>text{font-family:Inter,"Segoe UI",Helvetica,Arial,sans-serif}</style></defs>
+<rect width="1800" height="1262" fill="#ffffff"/>
+<text x="60" y="60" font-size="30" font-weight="700" fill="#212529" text-anchor="start">Ultrasonic distance instrument — wiring diagram</text>
+<text x="60" y="92" font-size="16" font-weight="400" fill="#868e96" text-anchor="start">Pin by pin · single jumper wires · USB power only · sensors on 5 V, so each Echo goes through a divider</text>
+<rect x="740" y="150" width="320" height="830" rx="16" fill="#f8f9fa" stroke="#343a40" stroke-width="2"/>
+<path d="M740 166 a16 16 0 0 1 16 -16 h288 a16 16 0 0 1 16 16 v48 h-320 z" fill="#343a40"/>
+<text x="760" y="180" font-size="19" font-weight="600" fill="#ffffff" text-anchor="start">Raspberry Pi Pico W</text>
+<text x="760" y="202" font-size="13" font-weight="400" fill="#ced4da" text-anchor="start">on the DFRobot Gravity board</text>
+<rect x="878.0" y="136" width="44" height="16" rx="3" fill="#adb5bd" stroke="#495057" stroke-width="1.5"/>
+<text x="932.0" y="146" font-size="13" font-weight="600" fill="#d9480f" text-anchor="start">USB: power and code</text>
+<text x="900.0" y="416" font-size="14" font-weight="700" fill="#495057" text-anchor="middle">Power pins</text>
+<rect x="762" y="437" width="48" height="22" rx="11" fill="#fff4e6" stroke="#e8590c" stroke-width="1.2"/>
+<text x="786" y="453" font-size="12" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<text x="820" y="453" font-size="13" font-weight="400" fill="#495057" text-anchor="start">VBUS, pin 40 · sensors, relay</text>
+<rect x="762" y="469" width="48" height="22" rx="11" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.2"/>
+<text x="786" y="485" font-size="12" font-weight="700" fill="#1864ab" text-anchor="middle">3V3</text>
+<text x="820" y="485" font-size="13" font-weight="400" fill="#495057" text-anchor="start">pin 36 · red pin of each row</text>
+<rect x="762" y="501" width="48" height="22" rx="11" fill="#f1f3f5" stroke="#343a40" stroke-width="1.2"/>
+<text x="786" y="517" font-size="12" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<text x="820" y="517" font-size="13" font-weight="400" fill="#495057" text-anchor="start">any black pin</text>
+<text x="900.0" y="676" font-size="13" font-weight="400" fill="#868e96" text-anchor="middle">Keep free: GP23, GP24, GP25, GP29</text>
+<text x="900.0" y="696" font-size="13" font-weight="400" fill="#868e96" text-anchor="middle">(used by the Wi-Fi chip)</text>
+<text x="900.0" y="900" font-size="13" font-weight="600" fill="#495057" text-anchor="middle">All GPIOs are 3.3 V only:</text>
+<text x="900.0" y="920" font-size="13" font-weight="400" fill="#495057" text-anchor="middle">never connect 5 V to a GPIO pin</text>
+<rect x="80" y="230" width="300" height="160" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="100" y="262" font-size="17" font-weight="600" fill="#212529" text-anchor="start">HC-SR04 #1 · left</text>
+<text x="100" y="286" font-size="13" font-weight="400" fill="#495057" text-anchor="start">ultrasonic sensor</text>
+<text x="100" y="307" font-size="13" font-weight="400" fill="#495057" text-anchor="start">runs on 5 V (VBUS)</text>
+<rect x="372" y="258" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="269" font-size="13" font-weight="600" fill="#212529" text-anchor="end">VCC</text>
+<rect x="372" y="290" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="301" font-size="13" font-weight="600" fill="#212529" text-anchor="end">Trig</text>
+<rect x="372" y="322" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="333" font-size="13" font-weight="600" fill="#212529" text-anchor="end">Echo</text>
+<rect x="372" y="354" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="365" font-size="13" font-weight="600" fill="#212529" text-anchor="end">GND</text>
+<line x1="388" y1="264" x2="470" y2="264" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="470.0" y="252" width="56" height="24" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.4"/>
+<text x="498" y="269" font-size="13" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<line x1="388" y1="360" x2="470" y2="360" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="470.0" y="348" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="498" y="365" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<circle cx="420" cy="264" r="4.5" fill="#343a40"/>
+<line x1="420" y1="212" x2="420" y2="234.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<line x1="420" y1="242.0" x2="420" y2="264" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<line x1="410" y1="234.0" x2="430" y2="234.0" stroke="#343a40" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="410" y1="242.0" x2="430" y2="242.0" stroke="#343a40" stroke-width="2.4" stroke-linecap="round"/>
+<rect x="392.0" y="188" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="420" y="205" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<text x="438" y="242" font-size="12" font-weight="600" fill="#495057" text-anchor="start">100 nF</text>
+<line x1="388" y1="296" x2="732" y2="296" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="732" y="290" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="758" y="301" font-size="14" fill="#212529"><tspan font-weight="700">GP20</tspan><tspan dx="5" fill="#868e96" font-size="13">· pin 26</tspan></text>
+<circle cx="600" cy="296" r="4.5" fill="#343a40"/>
+<line x1="600" y1="212" x2="600" y2="236.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="593" y="236.0" width="14" height="36" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<line x1="600" y1="272.0" x2="600" y2="296" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<text x="614" y="259.0" font-size="13" font-weight="600" fill="#495057" text-anchor="start">10 kΩ</text>
+<rect x="572.0" y="188" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="600" y="205" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<line x1="388" y1="328" x2="542" y2="328" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="542" y="321" width="36" height="14" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<text x="560" y="315" font-size="13" font-weight="600" fill="#495057" text-anchor="middle">1 kΩ</text>
+<line x1="578" y1="328" x2="732" y2="328" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="732" y="322" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="758" y="333" font-size="14" fill="#212529"><tspan font-weight="700">GP21</tspan><tspan dx="5" fill="#868e96" font-size="13">· pin 27</tspan></text>
+<circle cx="650" cy="328" r="4.5" fill="#343a40"/>
+<line x1="650" y1="328" x2="650" y2="352.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="643" y="352.0" width="14" height="36" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<line x1="650" y1="388.0" x2="650" y2="412" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<text x="664" y="375.0" font-size="13" font-weight="600" fill="#495057" text-anchor="start">2 kΩ</text>
+<rect x="622.0" y="412" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="650" y="429" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<text x="700" y="320" font-size="12" font-weight="600" fill="#1864ab" text-anchor="middle">≈ 3.3 V</text>
+<rect x="80" y="500" width="300" height="160" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="100" y="532" font-size="17" font-weight="600" fill="#212529" text-anchor="start">HC-SR04 #2 · right</text>
+<text x="100" y="556" font-size="13" font-weight="400" fill="#495057" text-anchor="start">ultrasonic sensor</text>
+<text x="100" y="577" font-size="13" font-weight="400" fill="#495057" text-anchor="start">runs on 5 V (VBUS)</text>
+<rect x="372" y="528" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="539" font-size="13" font-weight="600" fill="#212529" text-anchor="end">VCC</text>
+<rect x="372" y="560" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="571" font-size="13" font-weight="600" fill="#212529" text-anchor="end">Trig</text>
+<rect x="372" y="592" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="603" font-size="13" font-weight="600" fill="#212529" text-anchor="end">Echo</text>
+<rect x="372" y="624" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="635" font-size="13" font-weight="600" fill="#212529" text-anchor="end">GND</text>
+<line x1="388" y1="534" x2="470" y2="534" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="470.0" y="522" width="56" height="24" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.4"/>
+<text x="498" y="539" font-size="13" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<line x1="388" y1="630" x2="470" y2="630" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="470.0" y="618" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="498" y="635" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<circle cx="420" cy="534" r="4.5" fill="#343a40"/>
+<line x1="420" y1="482" x2="420" y2="504.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<line x1="420" y1="512.0" x2="420" y2="534" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<line x1="410" y1="504.0" x2="430" y2="504.0" stroke="#343a40" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="410" y1="512.0" x2="430" y2="512.0" stroke="#343a40" stroke-width="2.4" stroke-linecap="round"/>
+<rect x="392.0" y="458" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="420" y="475" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<text x="438" y="512" font-size="12" font-weight="600" fill="#495057" text-anchor="start">100 nF</text>
+<line x1="388" y1="566" x2="732" y2="566" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="732" y="560" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="758" y="571" font-size="14" fill="#212529"><tspan font-weight="700">GP18</tspan><tspan dx="5" fill="#868e96" font-size="13">· pin 24</tspan></text>
+<circle cx="600" cy="566" r="4.5" fill="#343a40"/>
+<line x1="600" y1="482" x2="600" y2="506.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="593" y="506.0" width="14" height="36" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<line x1="600" y1="542.0" x2="600" y2="566" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<text x="614" y="529.0" font-size="13" font-weight="600" fill="#495057" text-anchor="start">10 kΩ</text>
+<rect x="572.0" y="458" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="600" y="475" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<line x1="388" y1="598" x2="542" y2="598" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="542" y="591" width="36" height="14" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<text x="560" y="585" font-size="13" font-weight="600" fill="#495057" text-anchor="middle">1 kΩ</text>
+<line x1="578" y1="598" x2="732" y2="598" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="732" y="592" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="758" y="603" font-size="14" fill="#212529"><tspan font-weight="700">GP19</tspan><tspan dx="5" fill="#868e96" font-size="13">· pin 25</tspan></text>
+<circle cx="650" cy="598" r="4.5" fill="#343a40"/>
+<line x1="650" y1="598" x2="650" y2="622.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="643" y="622.0" width="14" height="36" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<line x1="650" y1="658.0" x2="650" y2="682" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<text x="664" y="645.0" font-size="13" font-weight="600" fill="#495057" text-anchor="start">2 kΩ</text>
+<rect x="622.0" y="682" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="650" y="699" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<text x="700" y="590" font-size="12" font-weight="600" fill="#1864ab" text-anchor="middle">≈ 3.3 V</text>
+<rect x="80" y="730" width="300" height="120" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="100" y="762" font-size="17" font-weight="600" fill="#212529" text-anchor="start">Push button</text>
+<text x="100" y="786" font-size="13" font-weight="400" fill="#495057" text-anchor="start">two diagonally opposite legs</text>
+<text x="100" y="807" font-size="13" font-weight="400" fill="#495057" text-anchor="start">pressed = LOW (internal pull-up)</text>
+<rect x="372" y="764" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="775" font-size="13" font-weight="600" fill="#212529" text-anchor="end">leg 1</text>
+<rect x="372" y="796" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="364" y="807" font-size="13" font-weight="600" fill="#212529" text-anchor="end">leg 2</text>
+<line x1="388" y1="770" x2="732" y2="770" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="732" y="764" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="758" y="775" font-size="14" fill="#212529"><tspan font-weight="700">GP17</tspan><tspan dx="5" fill="#868e96" font-size="13">· pin 22</tspan></text>
+<line x1="388" y1="802" x2="470" y2="802" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="470.0" y="790" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="498" y="807" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<text x="612" y="762" font-size="12" font-weight="500" fill="#868e96" text-anchor="middle">D pin of row GP17</text>
+<rect x="1420" y="240" width="300" height="160" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="1512" y="272" font-size="17" font-weight="600" fill="#212529" text-anchor="start">RGB LED · KY-016</text>
+<text x="1512" y="296" font-size="13" font-weight="400" fill="#495057" text-anchor="start">common cathode</text>
+<text x="1512" y="317" font-size="13" font-weight="400" fill="#495057" text-anchor="start">150 Ω resistors on board</text>
+<text x="1512" y="338" font-size="13" font-weight="400" fill="#495057" text-anchor="start">PWM from the GPIOs</text>
+<rect x="1412" y="268" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="279" font-size="13" font-weight="600" fill="#212529" text-anchor="start">R</text>
+<rect x="1412" y="300" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="311" font-size="13" font-weight="600" fill="#212529" text-anchor="start">G</text>
+<rect x="1412" y="332" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="343" font-size="13" font-weight="600" fill="#212529" text-anchor="start">B</text>
+<rect x="1412" y="364" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="375" font-size="13" font-weight="600" fill="#212529" text-anchor="start">−</text>
+<line x1="1068" y1="274" x2="1412" y2="274" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1052" y="268" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="1042" y="279" font-size="14" fill="#212529" text-anchor="end"><tspan fill="#868e96" font-size="13">pin 16 ·</tspan><tspan dx="5" font-weight="700">GP12</tspan></text>
+<line x1="1068" y1="306" x2="1412" y2="306" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1052" y="300" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="1042" y="311" font-size="14" fill="#212529" text-anchor="end"><tspan fill="#868e96" font-size="13">pin 17 ·</tspan><tspan dx="5" font-weight="700">GP13</tspan></text>
+<line x1="1068" y1="338" x2="1412" y2="338" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1052" y="332" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="1042" y="343" font-size="14" fill="#212529" text-anchor="end"><tspan fill="#868e96" font-size="13">pin 19 ·</tspan><tspan dx="5" font-weight="700">GP14</tspan></text>
+<line x1="1306" y1="370" x2="1412" y2="370" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1250.0" y="358" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="1278" y="375" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<rect x="1420" y="450" width="300" height="160" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="1512" y="482" font-size="17" font-weight="600" fill="#212529" text-anchor="start">Relay module</text>
+<text x="1512" y="506" font-size="13" font-weight="400" fill="#495057" text-anchor="start">5 V, optocoupler</text>
+<text x="1512" y="527" font-size="13" font-weight="400" fill="#495057" text-anchor="start">IN active LOW</text>
+<text x="1512" y="548" font-size="13" font-weight="400" fill="#495057" text-anchor="start">contacts unwired</text>
+<rect x="1412" y="478" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="489" font-size="13" font-weight="600" fill="#212529" text-anchor="start">DC+</text>
+<rect x="1412" y="526" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="537" font-size="13" font-weight="600" fill="#212529" text-anchor="start">DC−</text>
+<rect x="1412" y="574" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="585" font-size="13" font-weight="600" fill="#212529" text-anchor="start">IN</text>
+<line x1="1306" y1="484" x2="1412" y2="484" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1250.0" y="472" width="56" height="24" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.4"/>
+<text x="1278" y="489" font-size="13" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<line x1="1306" y1="532" x2="1412" y2="532" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1250.0" y="520" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="1278" y="537" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<line x1="1330" y1="484" x2="1330" y2="504.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<line x1="1330" y1="512.0" x2="1330" y2="532" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<line x1="1320" y1="504.0" x2="1340" y2="504.0" stroke="#343a40" stroke-width="2.4" stroke-linecap="round"/>
+<line x1="1320" y1="512.0" x2="1340" y2="512.0" stroke="#343a40" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="1330" cy="484" r="4.5" fill="#343a40"/>
+<circle cx="1330" cy="532" r="4.5" fill="#343a40"/>
+<line x1="1376" y1="484" x2="1376" y2="504.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<line x1="1376" y1="512.0" x2="1376" y2="532" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1366" y="502.0" width="20" height="3" fill="#ffffff" stroke="#343a40" stroke-width="1.6"/>
+<rect x="1366" y="511.0" width="20" height="3.5" fill="#343a40"/>
+<text x="1360" y="502.0" font-size="12" font-weight="700" fill="#495057" text-anchor="middle">+</text>
+<circle cx="1376" cy="484" r="4.5" fill="#343a40"/>
+<circle cx="1376" cy="532" r="4.5" fill="#343a40"/>
+<text x="1326" y="472" font-size="12" font-weight="600" fill="#495057" text-anchor="middle">100 nF</text>
+<text x="1384" y="472" font-size="12" font-weight="600" fill="#495057" text-anchor="middle">10–47 µF</text>
+<line x1="1068" y1="580" x2="1412" y2="580" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1052" y="574" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="1042" y="585" font-size="14" fill="#212529" text-anchor="end"><tspan fill="#868e96" font-size="13">pin 21 ·</tspan><tspan dx="5" font-weight="700">GP16</tspan></text>
+<circle cx="1150" cy="580" r="4.5" fill="#343a40"/>
+<line x1="1150" y1="492" x2="1150" y2="518.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1143" y="518.0" width="14" height="36" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<line x1="1150" y1="554.0" x2="1150" y2="580" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<text x="1136" y="541.0" font-size="13" font-weight="600" fill="#495057" text-anchor="end">4.7 kΩ</text>
+<rect x="1122.0" y="468" width="56" height="24" rx="12" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.4"/>
+<text x="1150" y="485" font-size="13" font-weight="700" fill="#1864ab" text-anchor="middle">3V3</text>
+<rect x="1420" y="676" width="300" height="160" rx="12" fill="#ffffff" stroke="#adb5bd" stroke-width="1.5"/>
+<text x="1512" y="708" font-size="17" font-weight="600" fill="#212529" text-anchor="start">OLED 1.3″ · SH1106</text>
+<text x="1512" y="732" font-size="13" font-weight="400" fill="#495057" text-anchor="start">I2C address 0x3C</text>
+<text x="1512" y="753" font-size="13" font-weight="400" fill="#495057" text-anchor="start">runs on 3.3 V</text>
+<rect x="1412" y="704" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="715" font-size="13" font-weight="600" fill="#212529" text-anchor="start">VCC</text>
+<rect x="1412" y="736" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="747" font-size="13" font-weight="600" fill="#212529" text-anchor="start">GND</text>
+<rect x="1412" y="768" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="779" font-size="13" font-weight="600" fill="#212529" text-anchor="start">SCL</text>
+<rect x="1412" y="800" width="16" height="12" rx="2" fill="#dee2e6" stroke="#868e96"/>
+<text x="1436" y="811" font-size="13" font-weight="600" fill="#212529" text-anchor="start">SDA</text>
+<line x1="1306" y1="710" x2="1412" y2="710" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1250.0" y="698" width="56" height="24" rx="12" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.4"/>
+<text x="1278" y="715" font-size="13" font-weight="700" fill="#1864ab" text-anchor="middle">3V3</text>
+<line x1="1306" y1="742" x2="1412" y2="742" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1250.0" y="730" width="56" height="24" rx="12" fill="#f1f3f5" stroke="#343a40" stroke-width="1.4"/>
+<text x="1278" y="747" font-size="13" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<line x1="1068" y1="774" x2="1412" y2="774" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1052" y="768" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="1042" y="779" font-size="14" fill="#212529" text-anchor="end"><tspan fill="#868e96" font-size="13">pin 7 ·</tspan><tspan dx="5" font-weight="700">GP5</tspan></text>
+<line x1="1068" y1="806" x2="1412" y2="806" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1052" y="800" width="16" height="12" rx="2" fill="#ffe066" stroke="#c39b00"/>
+<text x="1042" y="811" font-size="14" fill="#212529" text-anchor="end"><tspan fill="#868e96" font-size="13">pin 6 ·</tspan><tspan dx="5" font-weight="700">GP4</tspan></text>
+<circle cx="1180" cy="774" r="4.5" fill="#343a40"/>
+<line x1="1180" y1="690" x2="1180" y2="714.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1173" y="714.0" width="14" height="36" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<line x1="1180" y1="750.0" x2="1180" y2="774" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<text x="1166" y="737.0" font-size="13" font-weight="600" fill="#495057" text-anchor="end">4.7 kΩ</text>
+<rect x="1152.0" y="666" width="56" height="24" rx="12" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.4"/>
+<text x="1180" y="683" font-size="13" font-weight="700" fill="#1864ab" text-anchor="middle">3V3</text>
+<circle cx="1240" cy="806" r="4.5" fill="#343a40"/>
+<line x1="1240" y1="806" x2="1240" y2="830.0" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<rect x="1233" y="830.0" width="14" height="36" fill="#ffffff" stroke="#343a40" stroke-width="2"/>
+<line x1="1240" y1="866.0" x2="1240" y2="890" stroke="#343a40" stroke-width="2" stroke-linecap="round"/>
+<text x="1254" y="853.0" font-size="13" font-weight="600" fill="#495057" text-anchor="start">4.7 kΩ</text>
+<rect x="1212.0" y="890" width="56" height="24" rx="12" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.4"/>
+<text x="1240" y="907" font-size="13" font-weight="700" fill="#1864ab" text-anchor="middle">3V3</text>
+<text x="1110" y="766" font-size="12" font-weight="500" fill="#868e96" text-anchor="middle">SCL</text>
+<text x="1110" y="798" font-size="12" font-weight="500" fill="#868e96" text-anchor="middle">SDA</text>
+<line x1="80" y1="1018" x2="1720" y2="1018" stroke="#e9ecef" stroke-width="1.5"/>
+<text x="80" y="1048" font-size="16" font-weight="700" fill="#212529" text-anchor="start">Power</text>
+<rect x="80" y="1073" width="48" height="22" rx="11" fill="#fff4e6" stroke="#e8590c" stroke-width="1.2"/>
+<text x="104" y="1089" font-size="12" font-weight="700" fill="#d9480f" text-anchor="middle">5 V</text>
+<text x="140" y="1089" font-size="14" font-weight="400" fill="#495057" text-anchor="start">VBUS, pin 40 = the USB 5 V: both sensors and the relay, never to a GPIO</text>
+<rect x="80" y="1107" width="48" height="22" rx="11" fill="#e7f5ff" stroke="#1c7ed6" stroke-width="1.2"/>
+<text x="104" y="1123" font-size="12" font-weight="700" fill="#1864ab" text-anchor="middle">3V3</text>
+<text x="140" y="1123" font-size="14" font-weight="400" fill="#495057" text-anchor="start">Pico 3V3(OUT), pin 36 = the red pin of every Gravity row: OLED and pull-ups (≤ 300 mA)</text>
+<rect x="80" y="1141" width="48" height="22" rx="11" fill="#f1f3f5" stroke="#343a40" stroke-width="1.2"/>
+<text x="104" y="1157" font-size="12" font-weight="700" fill="#212529" text-anchor="middle">GND</text>
+<text x="140" y="1157" font-size="14" font-weight="400" fill="#495057" text-anchor="start">any black pin: all grounds are common</text>
+<text x="940" y="1048" font-size="16" font-weight="700" fill="#212529" text-anchor="start">Before you power up</text>
+<text x="940" y="1089" font-size="14" font-weight="400" fill="#495057" text-anchor="start">Wire with USB unplugged. Match each wire by the pin labels printed on the module:</text>
+<text x="940" y="1115" font-size="14" font-weight="400" fill="#495057" text-anchor="start">the pin order on your module may differ from this drawing.</text>
+<text x="940" y="1141" font-size="14" font-weight="400" fill="#495057" text-anchor="start">Dividers: before an Echo wire goes on, jumper the divider's top to the 5 V rail and</text>
+<text x="940" y="1167" font-size="14" font-weight="400" fill="#495057" text-anchor="start">measure the rail and the middle point: 0.64–0.69 × the rail (about 3.3 V at 5.0 V).</text>
+<text x="940" y="1193" font-size="14" font-weight="400" fill="#495057" text-anchor="start">Relay: COM, NO and NC stay unwired. Trigger jumper on L, if the module has one.</text>
+<text x="940" y="1219" font-size="14" font-weight="400" fill="#495057" text-anchor="start">Power: computer USB port or a ≥ 1 A charger. The Gravity VIN input is not used.</text>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYToyNWUzNWY0Yi0xZGM4LTQwNTgtYmQxNi02M2IzYTZjM2JhYTYAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaIoMwBxNMR+MsyNriBpRloEAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo5NzgzOGVkNC0zNjZkLTRlMTMtOWRkMS0yNTVjZmVhOTI4ZDVscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNog2tkgA0GcJL4OBpAPNJqjQAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggoatnDd2zoD34kBWQ+SHAXawjBj1hoTA4yfdPQrjUylmkZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaBRqrVYN03oOVaGtNd3Z0GwAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIOSce7OpgCqbsSJwaLIxAWPG3ikjPOTbmQn0MD3+3cVQZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GXH0Zmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjI1ZTM1ZjRiLTFkYzgtNDA1OC1iZDE2LTYzYjNhNmMzYmFhNi9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOmI0MzQxMTA1LTViZWYtNDZjYy1iMTA3LWJlMzFkNWE0MmVlZnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCChq2cN3bOgPfiQFZD5IcBdrCMGPWGhMDjJ909CuNTKWaJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggTDgjYhyxJcDs8kkqGqasoGYRJ3nhu2fRU6biSUUS6ZaiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggotR7sbNjG29pff+0oHKn5rBrZOGhepxKplzTYrUMjR50Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQEN6N3Ddb7I9CNfUIph5oaanpmyBpBfcg8x1z+jiOmEYO4eBdM6hfzs1MvJCAkaZgpyz5lylCUF12naDniBIrsU=</c2pa:manifest></metadata></svg>
