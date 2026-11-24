@@ -26,7 +26,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | **Kondenzátory (100 nF a 10–47 µF)** | 3 a 1 | Stabilizují napájení senzorů a relé. |
 * Ochrana: Ultrazvukový senzor HC-SR04 bude správně fungovat s napájecím napětím 5 V. Je proto připojený na pin *VBUS*. Signál, který je pak posílaný přes pin *ECHO* má taktéž 5 V nicméně piny Raspberry Pi Pico W zvládnou jen 3,3 V. Proto pomocí 2 rezistorů se vytvoří napěťový dělič 2/3, který napětí z 5 V sníží na 3,3 V.
 ## Schémata
-* **Blokové schéma:** [![Blokové schéma](ultrasonic_block_diagram.jpg)](ultrasonic_block_diagram.svg)
+* **Blokové schéma:** [![Blokové schéma](docs/img/ultrasonic_block_diagram.jpg)](docs/img/ultrasonic_block_diagram.svg)
 
 * **Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
 
