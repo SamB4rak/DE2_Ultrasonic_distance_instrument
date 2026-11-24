@@ -1,9 +1,9 @@
 """Bench test for the RGB LED module (run on the Pico).
 
-Wiring needed (see the wiring checklist):
-    * item 0: wire with USB unplugged; beeper and ground checks.
-    * item 6: RGB module - to GND; R, G, B to GP12, GP13, GP14 (pins 16, 17, 19).
-    * item 7: common grounds, USB power only, a port or charger of >= 1 A.
+Wiring (pin by pin in docs/img/ultrasonic_wiring_diagram.svg). Wire with USB
+unplugged and check the grounds with a beeper before plugging in.
+    * RGB module: - to GND; R, G, B to GP12, GP13, GP14 (pins 16, 17, 19).
+    * All grounds common; USB power only, from a port or charger of >= 1 A.
 
 Deploy ``src/`` first (``python tools/deploy.py``), then run:
     mpremote connect auto run tests/bench/bench_rgb_led.py

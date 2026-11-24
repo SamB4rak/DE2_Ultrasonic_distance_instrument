@@ -6,7 +6,7 @@ Distances are in metres, colours are ``(r, g, b)`` with values 0-255.
 """
 
 # --- General ---
-I2C_FREQ_HZ = 400_000        # drop to 100_000 if bus errors appear
+I2C_FREQ_HZ = 400_000        # needs the 4.7 kOhm pull-ups; 100_000 only to diagnose bus errors (a display page then blocks ~12 ms)
 
 # --- Distances, zones and events ---
 D_MIN_M = 0.02               # closer readings are clamped to this

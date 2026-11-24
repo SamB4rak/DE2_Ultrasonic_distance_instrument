@@ -1,0 +1,5 @@
+# Host-side development tools (CPython, not the Pico).
+pytest
+mpremote
+# Pin mpy-cross to the MicroPython version of the Pico's firmware.
+mpy-cross==1.29.*
