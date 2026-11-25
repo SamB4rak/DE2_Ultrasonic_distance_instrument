@@ -26,7 +26,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | Vypnuté měření | modrá |
 | Porucha | fialová |
 
-* Události se ukládají s časem z internetu (NTP) a každých 20 s se odešlou do ThingSpeaku:
+Události se ukládají s časem z internetu (NTP) a každých 20 s se odešlou do ThingSpeaku:
 
 | **Událost** | **Kdy vznikne** |
 | :--- | :--- |
