@@ -27,6 +27,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | Porucha | fialová |
 
 * Události se ukládají s časem z internetu (NTP) a každých 20 s se odešlou do ThingSpeaku:
+
 | **Událost** | **Kdy vznikne** |
 | :--- | :--- |
 | `SAMPLE` | každou minutu, se současnými vzdálenostmi |
