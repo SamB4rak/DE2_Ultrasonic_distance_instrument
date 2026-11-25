@@ -6,8 +6,25 @@ Ultrasonic sensors, serial 4-digit display, or Nokia SPI display
 * Samuel Breza
 * Denis Bureš
 
-### Zadání:
+## Zadání:
 Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoří zařízení, které v pravidelných intervalech měří vzdálenost a ukazuje ji na displeji. Zároveň poskytuje vizuální i zvukovou indikaci toho, zda je objekt blízko, nebo daleko. Podobně jako bezpečnostní kamera navíc zaznamenává události (změny zóny, příchod a odchod objektu a pravidelná měření) s přesným časem a přes Wi-Fi je odesílá do cloudu ThingSpeak.
+
+## Funkčnost:
+* Dva senzory (vlevo a vpravo) měří střídavě, každý 8× za sekundu. Každou hodnotu vyhladí medián ze tří posledních měření a dál se počítá s bližší z obou vzdáleností. Podle ní se určí zóna:
+
+| **Zóna** | **Vzdálenost** | **Barevné svícení** |
+| :--- | :---: | :---: |
+| blízko | pod 0,3 m | červená |
+| středně | 0,3–1,0 m | žlutá |
+| daleko | nad 1,0 m | zelená |
+| volno | nic v dosahu 4 m | zelená, svítí trvale |
+
+* Hranice zón mají hysterezi 3 cm, aby barva na hranici nepřeskakovala. LED bliká a relé při každém bliknutí cvakne: od 1 m dál jednou za sekundu, a čím blíž, tím rychleji, až 5× za sekundu na 10 cm a blíž. Displej ukazuje vzdálenosti z obou senzorů, poslední událost a stav Wi-Fi.
+
+| **Událost** | **Barevné svícení** |
+| :--- | :---: |
+| Vypnuté měření | modrá |
+| Porucha | fialová |
 
 ## Využité součástky
 * Projekt je vytvářen v **MicroPythonu 1.29.0** na desku **Raspberry Pi Pico W**
