@@ -26,6 +26,31 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 | Vypnuté měření | modrá |
 | Porucha | fialová |
 
+*Události se ukládají s časem z internetu (NTP) a každých 20 s se odešlou do ThingSpeaku:
+| **Událost** | **Kdy vznikne** |
+| :--- | :--- |
+| `SAMPLE` | každou minutu, se současnými vzdálenostmi |
+| `ZONE` | při změně zóny |
+| `ENTER` | objekt je blíž než 1 m (dvě měření po sobě) |
+| `LEAVE` | objekt je 3 s dál než 1 m nebo zmizel; zapíše se i nejmenší vzdálenost a doba přítomnosti |
+| `MODE` | tlačítkem se měření zapnulo nebo vypnulo |
+
+Kanál ThingSpeak má 7 polí: 
+* Vzdálenost 
+* Levý a pravý senzor (v metrech) 
+* Zóna 
+* Událost 
+* Nejmenší vzdálenost (m)  
+* Doba přítomnosti (s)
+
+## Princip měření
+Pico pošle na vstup *Trig* impulz dlouhý 10 µs. Senzor vyšle osm ultrazvukových pulzů o frekvenci 40 kHz a výstup *Echo* drží v log. 1, dokud se ozvěna od překážky nevrátí. Délka impulzu *Echo* je tedy doba *t*, za kterou zvuk doletí k překážce a zpět, proto se dělí dvěma:
+
+$d = \frac{v \cdot t}{2}$
+
+kde *v* = 343,4 m/s je rychlost zvuku ve vzduchu při 20 °C. Například *t* = 5,8 ms odpovídá vzdálenosti 1 m. Senzor měří zhruba od 2 cm do 4 m. Senzory se střídají po 60 ms, aby jeden nezachytil ozvěnu druhého.
+
+
 ## Využité součástky
 * Projekt je vytvářen v **MicroPythonu 1.29.0** na desku **Raspberry Pi Pico W**
 
