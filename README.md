@@ -73,6 +73,9 @@ kde *v* = 343,4 m/s je rychlost zvuku ve vzduchu při 20 °C. Například *t* = 
 
 **Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
 
+**Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram2.png)](docs/img/ultrasonic_wiring_diagram2.png)
+
+
 | **Modul** | **Zapojení** |
 | :--- | :--- |
 | HC‑SR04 #1 (vlevo) | VCC → 5 V (VBUS, pin 40), Trig → GP20 (pin 26) + 10 kΩ na GND, Echo → dělič 1 kΩ / 2 kΩ → GP21 (pin 27), GND → GND |
