@@ -71,8 +71,6 @@ kde *v* = 343,4 m/s je rychlost zvuku ve vzduchu při 20 °C. Například *t* = 
 ## Schémata
 **Blokové schéma:** [![Blokové schéma](docs/img/ultrasonic_block_diagram.jpg)](docs/img/ultrasonic_block_diagram.svg)
 
-**Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
-
 **Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram2.png)](docs/img/ultrasonic_wiring_diagram2.png)
 
 
