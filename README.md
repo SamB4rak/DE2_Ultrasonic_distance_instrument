@@ -110,6 +110,6 @@ Na zapojení a testování pracujeme všichni společně.
 | **Člen týmu** | **Na starosti** |
 | :--- | :--- |
 | Samuel Barák | návrh programu, propojení modulů a testy, drobné úpravy repozitáře |
-| Daniel Blumaier | plakát, prezentace a video, fotky, doplňky |
+| Daniel Blumaier | schéma zapojení, plakát, prezentace a video, fotky, doplňky |
 | Samuel Breza | hardware: zapojení, senzory s děliči, displej, LED, relé a tlačítko; měření přesnosti |
 | Denis Bureš | větší úpravy repozitáře a dokumentace (README, Sphinx, výsledky testů) |
