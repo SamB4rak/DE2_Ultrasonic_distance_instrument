@@ -38,7 +38,7 @@ Projekt, ve kterém se pomocí dvou ultrazvukových senzorů a displeje vytvoř�
 Kanál ThingSpeak má 7 polí: 
 * Vzdálenost 
 * Levý a pravý senzor (v metrech) 
-* Zóna 
+* Zóna  
 * Událost 
 * Nejmenší vzdálenost (m)  
 * Doba přítomnosti (s)
@@ -68,9 +68,9 @@ kde *v* = 343,4 m/s je rychlost zvuku ve vzduchu při 20 °C. Například *t* = 
 | **Kondenzátory (100 nF a 10–47 µF)** | 3 a 1 | Stabilizují napájení senzorů a relé. |
 * Ochrana: Ultrazvukový senzor HC-SR04 bude správně fungovat s napájecím napětím 5 V. Je proto připojený na pin *VBUS*. Signál, který je pak posílaný přes pin *ECHO* má taktéž 5 V nicméně piny Raspberry Pi Pico W zvládnou jen 3,3 V. Proto pomocí 2 rezistorů se vytvoří napěťový dělič 2/3, který napětí z 5 V sníží na 3,3 V.
 ## Schémata
-* **Blokové schéma:** [![Blokové schéma](docs/img/ultrasonic_block_diagram.jpg)](docs/img/ultrasonic_block_diagram.svg)
+**Blokové schéma:** [![Blokové schéma](docs/img/ultrasonic_block_diagram.jpg)](docs/img/ultrasonic_block_diagram.svg)
 
-* **Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
+**Schéma zapojení:** [![Schéma zapojení](docs/img/ultrasonic_wiring_diagram.jpg)](docs/img/ultrasonic_wiring_diagram.svg)
 
 | **Modul** | **Zapojení** |
 | :--- | :--- |
@@ -81,7 +81,7 @@ kde *v* = 343,4 m/s je rychlost zvuku ve vzduchu při 20 °C. Například *t* = 
 | Relé modul | DC+ → 5 V (VBUS, pin 40), DC− → GND, IN → GP16 (pin 21) + 4,7 kΩ na 3V3 |
 | OLED displej | VCC → 3V3 (pin 36), GND → GND, SCL → GP5 (pin 7), SDA → GP4 (pin 6) + 4,7 kΩ na 3V3 |
 
-Senzory a relé běží z 5 V, displej z 3,3 V. Všechny země jsou spojené a celé zařízení se napájí přes USB. Dělič u Echo: *U* = 5 V · 2 kΩ / (1 kΩ + 2 kΩ) ≈ 3,33 V.
+* Senzory a relé běží z 5 V, displej z 3,3 V. Všechny země jsou spojené a celé zařízení se napájí přes USB. Dělič u Echo: *U* = 5 V · 2 kΩ / (1 kΩ + 2 kΩ) ≈ 3,33 V.
 
 ## Časování
 Program běží v `asyncio`: každá úloha se pravidelně probudí, udělá svou práci a zase uspí.
