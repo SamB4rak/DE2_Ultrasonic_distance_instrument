@@ -150,12 +150,15 @@ Každý test je krátký skript, který vyzkouší jednu součástku. Nejdřív 
 
 | **Test** | **Co dělá** |
 | :--- | :--- |
+| [`test_pico.py`](tests/test_pico.py) | Blikne LED přímo na Picu a zkontroluje, jak jsou zapojené vstupní piny. Spouští se jako první. |
 | [`test_led.py`](tests/test_led.py) | RGB LED svítí zeleně, žlutě, červeně a modře, každou barvu 1 s. |
 | [`test_relay.py`](tests/test_relay.py) | Relé pětkrát cvakne, jednou za sekundu. |
 | [`test_button.py`](tests/test_button.py) | Po dobu 20 s vypíše každý stisk tlačítka. |
 | [`test_display.py`](tests/test_display.py) | Najde displej na I2C a napíše na něj „Hello world.“. |
 | [`test_sensors.py`](tests/test_sensors.py) | Dvakrát za sekundu vypíše vzdálenost z obou senzorů. |
 | [`test_wifi.py`](tests/test_wifi.py) | Připojí se k Wi-Fi a nastaví čas z NTP; vypíše IP adresu a čas. |
+
+Všechny testy prošly na sestaveném přístroji 26. 11. 2026. Celý program pak běžel se všemi součástkami a data se zapisovala do ThingSpeaku.
 
 ## Spuštění
 1. Do Pica nahrajte firmware [MicroPython 1.29.0 pro Pico W](https://micropython.org/download/RPI_PICO_W/).
