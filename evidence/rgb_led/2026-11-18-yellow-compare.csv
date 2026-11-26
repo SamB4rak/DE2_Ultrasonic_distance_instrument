@@ -1,9 +1,0 @@
-# mode=compare freq_hz=1000 common_anode=False
-# starting in 3
-# starting in 2
-# starting in 1
-step,name,r,g,b,duty_r,duty_g,duty_b
-1,yellow_g80,255,80,0,65535,20560,0
-2,yellow_g90,255,90,0,65535,23130,0
-3,yellow_g100,255,100,0,65535,25700,0
-# summary: yellow compare, R=255, G=[80, 90, 100], 6 s each
